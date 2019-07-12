@@ -1,6 +1,6 @@
-{% extends "templates/public_template.html" %}
+{% extends "public/public_template.html" %}
 
-{% block title %}Upload{% endblock %}
+{% block title %}Dimensions{% endblock %}
 
 {% block main %}
 
@@ -8,16 +8,15 @@
   <div class="row">
     <div class="col">
 
-      <h1>Upload an image</h1>
+      <h1>Upload a DXF file</h1>
       <hr>
 
       <form action="/upload-image" method="POST" enctype="multipart/form-data">
 
         <div class="form-group">
-          <label>Select image</label>
           <div class="custom-file">
             <input type="file" class="custom-file-input" name="image" id="image">
-            <label class="custom-file-label" for="image">Select image...</label>
+            <label class="custom-file-label" for="image">Select file...</label>
           </div>
         </div>
 
