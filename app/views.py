@@ -5,7 +5,7 @@ from wand.image import Image as wandImage
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
 
-UPLOAD_FOLDER = '/home/bscheibel/Desktop/flask/uploads'
+UPLOAD_FOLDER = '/Users/beatescheibel/Desktop/flask/uploads'
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'PDF'])
 
@@ -26,8 +26,9 @@ def upload_file():
         if file and allowed_file(file.filename):
 
             filename = file.filename
-            image = wandImage(filename=filename)
-            image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            #image = wandImage(filename=filename)
+            #image.save(os.path).join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             return redirect(url_for('uploaded_file', filename=filename))
     return '''
     <!doctype html>
