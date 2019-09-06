@@ -1,18 +1,20 @@
 from app import app
 import os
+from flask import make_response
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
-from wand.image import Image as wandImage
+import subprocess
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
 
-UPLOAD_FOLDER = '/Users/beatescheibel/Desktop/flask/uploads'
+#UPLOAD_FOLDER = '/Users/beatescheibel/Desktop/flask/uploads'
+UPLOAD_FOLDER = '/home/bscheibel/uploads_app'
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'PDF'])
+ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'PDF'])
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("upload_image.html")
 
 
 def allowed_file(filename):
@@ -39,11 +41,26 @@ def upload_file():
          <input type=submit value=Upload>
     </form>
     '''
+def convert_pdf(filename):
+    PDFFILE = UPLOAD_FOLDER +"/" + filename
+    subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
+                     PDFFILE, '/home/bscheibel/uploads_app/out'])
 
 @app.route('/show/<filename>')
 def uploaded_file(filename):
-    #filename = 'http://127.0.0.1:5000/uploads/' + filename
-    return render_template('show_image.html', filename=filename)
+    if filename.endswith(".pdf") or filename.endswith(".PDF"):
+        convert_pdf(filename)
+        print("blub")
+        filename = "out.jpg"
+        #response = make_response(render_template('show_image.html', filename=filename))
+        #response.headers['Content-Type'] = 'application/pdf'
+        #response.headers['Content-Disposition'] = \
+        #    'inline; filename=%s.pdf' % filename
+        #filename = 'http://127.0.0.1:5000/uploads/' + filename
+        return render_template('show_image.html', filename=filename)
+    else:
+        filename = filename
+        return render_template('show_image.html', filename=filename)
 
 @app.route('/uploads/<filename>')
 def send_file(filename):

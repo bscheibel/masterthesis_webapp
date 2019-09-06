@@ -11,7 +11,7 @@
 </div>
   <div class="centered">
     {% if filename %}
-      <img src="{{ url_for('send_file', filename=filename) }}">
+      <img src="{{ url_for('send_file', filename=filename) }}"/>
     {% else %}
       <h1>no image for whatever reason</h1>
     {% endif %}
