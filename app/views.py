@@ -3,7 +3,10 @@ import os
 from flask import make_response
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 import subprocess
-import time
+import order_bounding_boxes_in_each_block
+import redis
+import random
+import json
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
 
@@ -27,7 +30,9 @@ def upload_file():
             #image = wandImage(filename=filename)
             #image.save(os.path).join(app.config["UPLOAD_FOLDER"], filename)
             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            return redirect(url_for('uploaded_file', filename=filename))
+            uuid = random.randint(100,10000000)
+            order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER+"/"+filename)
+            return redirect(url_for('uploaded_file', filename=filename, uuid=uuid))
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -42,13 +47,15 @@ def convert_pdf(filename):
     subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
                      PDFFILE, '/home/bscheibel/uploads_app/out'])
 
-@app.route('/show/<filename>')
-
-def uploaded_file(filename):
+@app.route('/show/<filename>&<uuid>')
+def uploaded_file(filename, uuid):
     file_out = "out.jpg"
     if filename.endswith(".pdf") or filename.endswith(".PDF"):
         convert_pdf(filename)
-        return render_template('show_image.html', filename=file_out)
+        db = redis.Redis("localhost")
+        #uuid = "dd"
+        isos = json.loads(db.get(uuid))
+        return render_template('show_image.html', filename=file_out, isos=isos)
 
     else:
         filename = filename
@@ -66,3 +73,4 @@ def add_header(response):
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '-1'
     return response
+

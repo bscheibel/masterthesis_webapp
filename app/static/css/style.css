@@ -54,7 +54,10 @@ body {
   text-align: center;
   margin: 10;
 }
-
+.thick-border {
+        border: 3px solid black;
+        border-collapse: collapse;
+}
 /* Style the image inside the centered container, if needed */
 .centered img {
   max-width: 140%;
