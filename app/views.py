@@ -7,6 +7,7 @@ import order_bounding_boxes_in_each_block
 import redis
 import random
 import json
+import os
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
 
@@ -73,4 +74,17 @@ def add_header(response):
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '-1'
     return response
+
+
+@app.route('/generate/<name>')
+def generate(name):
+    name = name.replace(" ","")
+    url = name+".PDF"
+    url1 = "./static/isos/"+url
+    print(url1)
+    try:
+        file = send_from_directory("static/isos",url)
+        return file
+    except:
+        return"Sorry file not found"
 

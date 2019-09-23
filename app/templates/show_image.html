@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-  <title>Hello from Flask</title>
+  <title>Dimension Extraction</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 </head>
 
@@ -24,7 +24,7 @@
     <div style="text-indent:50px;">
       <h1>Extracted Tolerances</h1>
       <p>Maße: {{ dims }} </p>
-      <p><a href="http://localhost:5000/"> Upload another drawing </a></p>
+      <p><a  href="http://localhost:5000/"> Upload another drawing </a></p>
     </div>
   </div>
 
@@ -36,7 +36,7 @@
 
         {% for k in isos %}
                 <tr>
-                        <td><a href="path/doc.pdf">My Resume</a> {{ k }}</td>
+                        <td><a href="{{ url_for('generate', name=k) }}" > {{ k }} </a> </td>
                 </tr>
         {% endfor %}
       </table>
