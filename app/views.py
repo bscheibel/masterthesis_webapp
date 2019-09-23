@@ -1,6 +1,4 @@
 from app import app
-import os
-from flask import make_response
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 import subprocess
 import order_bounding_boxes_in_each_block
@@ -21,18 +19,24 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+def convert_pdf(filename):
+    PDFFILE = UPLOAD_FOLDER +"/" + filename
+    subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
+                     PDFFILE, '/home/bscheibel/uploads_app/out'])
+
+def extract_all(uuid, filename):
+    order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
+    subprocess.call(['python3','/home/bscheibel/PycharmProjects/dxf_reader/clustering_precomputed_dbscan.py', str(uuid), str(uuid)+"out.html",'localhost'])
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
-
             filename = file.filename
-            #image = wandImage(filename=filename)
-            #image.save(os.path).join(app.config["UPLOAD_FOLDER"], filename)
             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             uuid = random.randint(100,10000000)
-            order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER+"/"+filename)
+            extract_all(uuid, filename)
             return redirect(url_for('uploaded_file', filename=filename, uuid=uuid))
     return '''
     <!doctype html>
@@ -43,10 +47,6 @@ def upload_file():
          <input type=submit value=Upload>
     </form>
     '''
-def convert_pdf(filename):
-    PDFFILE = UPLOAD_FOLDER +"/" + filename
-    subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
-                     PDFFILE, '/home/bscheibel/uploads_app/out'])
 
 @app.route('/show/<filename>&<uuid>')
 def uploaded_file(filename, uuid):
@@ -54,9 +54,11 @@ def uploaded_file(filename, uuid):
     if filename.endswith(".pdf") or filename.endswith(".PDF"):
         convert_pdf(filename)
         db = redis.Redis("localhost")
-        #uuid = "dd"
-        isos = json.loads(db.get(uuid))
-        return render_template('show_image.html', filename=file_out, isos=isos)
+        iso = db.get(uuid+"dims")
+        print(iso)
+        isos = json.loads(db.get(uuid+"isos"))
+        dims = json.loads(db.get(uuid+"dims"))
+        return render_template('show_image.html', filename=file_out, isos=isos, dims=dims)
 
     else:
         filename = filename

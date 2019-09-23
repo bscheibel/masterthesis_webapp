@@ -7,7 +7,7 @@ import re
 import json
 
 def get_bound_box(uuid, file):
-    print(file)
+    #print(file)
     response = open(file)
     html_doc = response.read()
     response.close()
@@ -52,9 +52,6 @@ def get_bound_box(uuid, file):
 
         #print("\n")"""
 
-
-    db = redis.Redis("localhost")
-    db.set(uuid, "test")
     return new_all_elements, uuid
 
 def pdf_to_html(uuid,filepath):
@@ -69,7 +66,7 @@ def extract_isos(result):
         #print(element)
         for x in element:
             new_arr += x[4] + " "
-        print(new_arr)
+        #print(new_arr)
         if re.search(reg,new_arr):
             #print(new_arr)
             found = re.findall(reg, new_arr)
@@ -86,8 +83,12 @@ def main(uuid, result):
     isos = extract_isos(res)
     isos_j = json.dumps(isos)
     db = redis.Redis("localhost")
-    print(isos)
-    db.set(uuid, str(isos_j))
+    #print(isos)
+    db.set(str(uuid)+"isos", str(isos_j))
+    #print(db.get(uuid))
+
+
+
 
 """file = "/home/bscheibel/PycharmProjects/dxf_reader/drawings/5129275_Rev01-GV12.html"
 res, uuid = get_bound_box("uuu", file)

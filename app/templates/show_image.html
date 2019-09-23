@@ -8,8 +8,10 @@
 <div class="split left">
 <div class="header_centered">
   <h1>Drawing</h1>
+           <p><a  href="http://localhost:5000/"> Upload another drawing </a></p>
 </div>
   <div class="centered">
+
     {% if filename %}
       <img src="{{ url_for('send_file', filename=filename) }}"/>
     {% else %}
@@ -21,17 +23,30 @@
 
 <div class="split right">
   <div class="top">
-    <div style="text-indent:50px;">
       <h1>Extracted Tolerances</h1>
-      <p>Maße: {{ dims }} </p>
-      <p><a  href="http://localhost:5000/"> Upload another drawing </a></p>
+            <font size="1" face="Courier New" >
+            <table>
+                <tr>
+                  <td><h2>Important?</h2></td>
+                  <td><h2>Target Values</h2></td>
+                  <td><h2>Actual Values</h2></td>
+                </tr>
+                {% for d in dims %}
+                <tr>
+                        <td><input type="checkbox" name="check" value="checked"></td>
+                        <td> {{ d }}</td>
+                        <td><input type="text" name="actual"></td>
+                </tr>
+                {% endfor %}
+        </table>
+        </font>
     </div>
-  </div>
 
 
-  <div class="bottom">
+  <div class="bottom indent">
     <div style="text-indent:50px;">
       <h1>Additional Requirements:</h1>
+      <div style="text-indent:20px">
       <table>
 
         {% for k in isos %}
@@ -40,7 +55,7 @@
                 </tr>
         {% endfor %}
       </table>
-
+    </div>
     </div>
     </div>
 </div>
