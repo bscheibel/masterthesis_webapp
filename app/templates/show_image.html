@@ -5,62 +5,54 @@
 </head>
 
 <body>
-<div class="split left">
-<div class="header_centered">
-  <h1>Drawing</h1>
-           <p><a  href="http://localhost:5000/"> Upload another drawing </a></p>
-</div>
-  <div class="centered">
-
-    {% if filename %}
-      <img src="{{ url_for('send_file', filename=filename) }}"/>
-    {% else %}
-      <h1>no image for whatever reason</h1>
-    {% endif %}
-
-  </div>
-</div>
-
-<div class="split right">
-  <div class="top">
-      <h1>Extracted Tolerances</h1>
-            <font size="1" face="Courier New" >
-            <table>
-                <tr>
-                  <td><h2>Important?</h2></td>
-                  <td><h2>Target Values</h2></td>
-                  <td><h2>Actual Values</h2></td>
-                </tr>
-                {% for d in dims %}
-                <tr>
-                        <td><input type="checkbox" name="check" value="checked"></td>
-                        <td> {{ d }}</td>
-                        <td><input type="text" name="actual"></td>
-                </tr>
-                {% endfor %}
-        </table>
-        </font>
+<!--<div class="split left">-->
+<div class="container">
+    <div class="column column-one">
+            <h1>Drawing</h1>
+            <p> <a href="http://localhost:5000/"> Upload another drawing </a> </p>
+        {% if filename %}
+        <img src="{{ url_for('send_file', filename=filename) }}"/>
+        {% else %}
+        <h1>no image for whatever reason</h1>
+        {% endif %}
     </div>
+<!--<div class="split middle">-->
+    <div class="column column-two">
+            <h1>Extracted Measurements</h1>
+                <font size="3" face="Courier New" >
+                <form method="post" action="">
+                <table>
+                    <tr>
+                        <td style="text-align:center"><h3>Key Value</h3></td>
+                        <td style="text-align:center"><h3>Target Value</h3></td>
+                        <td style="text-align:center"><h3>Correct</h3></td>
+                        <td style="text-align:center"><h3>Actual Value</h3></td>
+                    </tr>
+                    {% for d in dims %}
+                    <tr>
+                        <td style="text-align:center"><input type="checkbox" name="check" value="checked"></td>
+                        <td style="text-align:center"> {{ d }}</td>
+                        <td style="text-align:center"><input type="checkbox" name="check" value="checked"></td>
+                        <td style="text-align:center"><input type="text" name="actual" size="10"></td>
+                    </tr>
+                    {% endfor %}
 
 
-  <div class="bottom indent">
-    <div style="text-indent:50px;">
-      <h1>Additional Requirements:</h1>
-      <div style="text-indent:20px">
-      <table>
-
-        {% for k in isos %}
-                <tr>
+                </table>
+                    <button type="button" >Submit</button>
+                </form>
+                </font>
+    </div>
+    <!--<div class="split right">-->
+    <div class="column column-three">
+            <h1>Additional Infos:</h1>
+                <table>
+                    {% for k in isos %}
+                     <tr>
                         <td><a href="{{ url_for('generate', name=k) }}" > {{ k }} </a> </td>
-                </tr>
-        {% endfor %}
-      </table>
-    </div>
-    </div>
+                    </tr>
+                {% endfor %}
+                </table>
     </div>
 </div>
-
-
 </body>
-
- <!--<img src="{{ url_for('send_file', filename=filename) }}" type="application/pdf" /-->
