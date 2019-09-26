@@ -1,7 +1,6 @@
 from app import app
-from flask import Flask, request, redirect, url_for, send_from_directory, render_template
+from flask import request, redirect, url_for, send_from_directory, render_template
 import subprocess
-import order_bounding_boxes_in_each_block
 import redis
 import random
 import json
@@ -19,14 +18,14 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-def convert_pdf(filename):
+def convert_pdf_img(filename):
     PDFFILE = UPLOAD_FOLDER +"/" + filename
     subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
                      PDFFILE, '/home/bscheibel/uploads_app/out'])
 
-def extract_all(uuid, filename):
-    order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
-    subprocess.call(['python3','/home/bscheibel/PycharmProjects/dxf_reader/main.py', str(uuid), str(uuid)+"out.html",'localhost'])
+def extract_all(uuid, filename, db):
+    #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
+    subprocess.call(['python3','/home/bscheibel/PycharmProjects/dxf_reader/main.py', str(uuid),UPLOAD_FOLDER + "/" + filename,db])
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -36,7 +35,7 @@ def upload_file():
             filename = file.filename
             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             uuid = random.randint(100,10000000)
-            extract_all(uuid, filename)
+            extract_all(uuid, filename, 'localhost')
             return redirect(url_for('uploaded_file', filename=filename, uuid=uuid))
     return '''
     <!doctype html>
@@ -52,10 +51,10 @@ def upload_file():
 def uploaded_file(filename, uuid):
     file_out = "out.jpg"
     if filename.endswith(".pdf") or filename.endswith(".PDF"):
-        convert_pdf(filename)
+        convert_pdf_img(filename)
         db = redis.Redis("localhost")
-        iso = db.get(uuid+"dims")
-        print(iso)
+        #isos = db.get(uuid+"dims")
+        #print(iso)
         isos = json.loads(db.get(uuid+"isos"))
         dims = json.loads(db.get(uuid+"dims"))
         return render_template('show_image.html', filename=file_out, isos=isos, dims=dims)
