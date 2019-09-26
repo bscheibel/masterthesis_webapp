@@ -1,47 +1,8 @@
 body {
   background-color: #f2f2f2;
 }
-/*.column {
-  float: left;
-  width: 50%;
-}'/
-/* Split the screen in half */
-/*.split {
-  height: 100%;
-  width: 50%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-/* Control the left side */
-/*.left {
-  left: 0;
-  background-color: white;
-}
-
-/* Control the right side */
-/*.right {
-  right: 0;
-  background-color: white;
-}
-.column {
-  float: left;
-  width: 33.33%;
-}
-.top {
-  height: 50vh;
-  background-color: #f1f1f1;
-}
-
-.bottom {
-  height: 50vh;
-  background-color: #f1f1f1;
-}*/
 /* If you want the content centered horizontally and vertically */
-.centered {
+/*.centered {
   position: absolute;
   top: 50%;
   left: 40%;
@@ -61,15 +22,22 @@ body {
 .thick-border {
         border: 3px solid black;
         border-collapse: collapse;
-}
+}*/
 
 /* Style the image inside the centered container, if needed */
-.centered img {
-  max-width: 140%;
+img {
+  max-width: 100%;
+}
+
+.images{
+  flex: 1 1 auto;
+  min-width: 15em;
+  max-width: 800px;
 }
 
 .container {
     display: flex;
+    flex-wrap: row wrap;
 }
 
 .column {
@@ -88,4 +56,8 @@ body {
 }
 .column-three {
     order: 3;
+}
+
+@media (max-width: 50em) { /* 2 x 15em (.text & .images) + 2em  (left & right margin of the body element) + 1em (.text margin-right)  */
+  .container {flex-wrap: wrap}
 }

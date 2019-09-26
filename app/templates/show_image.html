@@ -11,7 +11,9 @@
             <h1>Drawing</h1>
             <p> <a href="http://localhost:5000/"> Upload another drawing </a> </p>
         {% if filename %}
-        <img src="{{ url_for('send_file', filename=filename) }}"/>
+        <div class="images">
+            <img src="{{ url_for('send_file', filename=filename) }}"/>
+        </div>
         {% else %}
         <h1>no image for whatever reason</h1>
         {% endif %}
@@ -20,7 +22,7 @@
     <div class="column column-two">
             <h1>Extracted Measurements</h1>
                 <font size="3" face="Courier New" >
-                <form method="post" action="">
+                <form method="post" action="{{ url_for('form_post') }}">
                 <table>
                     <tr>
                         <td style="text-align:center"><h3>Key Value</h3></td>
@@ -28,18 +30,21 @@
                         <td style="text-align:center"><h3>Correct</h3></td>
                         <td style="text-align:center"><h3>Actual Value</h3></td>
                     </tr>
-                    {% for d in dims %}
+                    {% for key in dims %}
+                    <td><h4> {{key}} </h4></td>
+                        {% for d in dims[key][4] %}
                     <tr>
-                        <td style="text-align:center"><input type="checkbox" name="check" value="checked"></td>
+                        <td style="text-align:center"><input type="checkbox" name="relevant" value="checked"></td>
                         <td style="text-align:center"> {{ d }}</td>
-                        <td style="text-align:center"><input type="checkbox" name="check" value="checked"></td>
+                        <td style="text-align:center"><input type="checkbox" name="correct" value="checked"></td>
                         <td style="text-align:center"><input type="text" name="actual" size="10"></td>
                     </tr>
+                        {% endfor %}
                     {% endfor %}
 
 
                 </table>
-                    <button type="button" >Submit</button>
+                    <input type="submit" value="Submit"/>
                 </form>
                 </font>
     </div>

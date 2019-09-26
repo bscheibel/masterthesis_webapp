@@ -26,7 +26,7 @@ def convert_pdf(filename):
 
 def extract_all(uuid, filename):
     order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
-    subprocess.call(['python3','/home/bscheibel/PycharmProjects/dxf_reader/clustering_precomputed_dbscan.py', str(uuid), str(uuid)+"out.html",'localhost'])
+    subprocess.call(['python3','/home/bscheibel/PycharmProjects/dxf_reader/main.py', str(uuid), str(uuid)+"out.html",'localhost'])
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -90,3 +90,7 @@ def generate(name):
     except:
         return"Sorry file not found"
 
+@app.route('/show_results', methods=['POST'])
+def form_post():
+    text = request.args.get("form")
+    return render_template('display_results.html', text=text)
