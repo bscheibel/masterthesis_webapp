@@ -50,6 +50,8 @@ def upload_file():
 @app.route('/show/<filename>&<uuid>')
 def uploaded_file(filename, uuid):
     file_out = "out.jpg"
+    if request.method == 'POST':
+        uuid = 433
     if filename.endswith(".pdf") or filename.endswith(".PDF"):
         convert_pdf_img(filename)
         db = redis.Redis("localhost")
@@ -57,7 +59,16 @@ def uploaded_file(filename, uuid):
         #print(iso)
         isos = json.loads(db.get(uuid+"isos"))
         dims = json.loads(db.get(uuid+"dims"))
-        return render_template('show_image.html', filename=file_out, isos=isos, dims=dims)
+        html_code = ""
+       # dims = eval(dims)
+        for dim in dims:
+            html_code += '''<td><h4>''' + dim + '''</h4></td>'''
+            for d in dims[dim]:
+                html_code += "<tr><td style='text-align:center'> <input type='checkbox' name='relevant." + d + "' value='checked'  onchange='submit()'> </td>" + \
+                             "<td style='text-align:center'>" + d + "</td>" + \
+                             "<td style='text-align:center'> <input type='number' name='" + d + "' value='" + d + "'  size='10'  onchange='submit()'> </td></tr>"
+                print(html_code)
+        return render_template('show_image.html', filename=file_out, isos=isos, dims=dims, text=html_code)
 
     else:
         filename = filename
@@ -81,15 +92,17 @@ def add_header(response):
 def generate(name):
     name = name.replace(" ","")
     url = name+".PDF"
-    url1 = "./static/isos/"+url
-    print(url1)
     try:
         file = send_from_directory("static/isos",url)
         return file
     except:
         return"Sorry file not found"
 
-@app.route('/show_results', methods=['POST'])
+@app.route('/show_results')
 def form_post():
-    text = request.args.get("form")
-    return render_template('display_results.html', text=text)
+    text = []
+    db = redis.Redis('localhost')
+    for key in request.form:
+        db.set(key, request.form[key])
+    return render_template('display_results.html')
+

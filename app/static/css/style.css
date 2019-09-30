@@ -45,7 +45,7 @@ img {
 
     /*for demo purposes only */
     background: #f2f2f2;
-    border: 1px solid #e6e6e6;
+    /*border: 1px solid #e6e6e6;*/
     box-sizing: border-box;
 }
 .column-one {
@@ -60,4 +60,14 @@ img {
 
 @media (max-width: 50em) { /* 2 x 15em (.text & .images) + 2em  (left & right margin of the body element) + 1em (.text margin-right)  */
   .container {flex-wrap: wrap}
+}
+
+.red{
+background: red;
+opacity: 0.4;
+width: 20px;
+height: 20px;
+position: absolute;
+left: 0px;
+top: 0px;
 }

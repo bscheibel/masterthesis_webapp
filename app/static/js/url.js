@@ -1,5 +1,5 @@
 
-function createDynamicURL(k)
+function submit_save(k)
 {
     //The variable to be returned
     var URL;
@@ -7,3 +7,6 @@ function createDynamicURL(k)
 
     return URL;
 }
+
+
+
