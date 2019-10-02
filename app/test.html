@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        $("input#measurements").on("hover",function(){
+
+            // highlight values, does work so far
+
+            val number = $(this).attr('name');
+            $("#result").append(number));
+
+        });
+
+
+
+        $('#getPos').on('click', function(){
+
+            var xRes = $('#xRes span'),
+                yRes = $('#yRes span'),
+                image = $('img#myImg');
+
+            xRes.html(image.offset().top);
+            yRes.html(image.offset().left);
+
+        });
+</body>
+</html>
