@@ -13,7 +13,7 @@
             <p> <a href="http://localhost:5000/"> Upload another drawing </a> </p>
         {% if filename %}
         <div class="images">
-            <img src="{{ url_for('send_file', filename=filename) }}"/>
+            <img src="{{ url_for('send_file', filename=filename) }}" id="drawing"/>
             <div class="red" ></div>
         </div>
         {% else %}
@@ -67,42 +67,55 @@
 
 <script>
 
+
+    let pos = $("#drawing").position();
+
     $(document).ready(function(){
 
         $("input[type=number]").on("change keyup input", function(){
 
-            // Print entered value in a div box
-            var coords = $(this).attr('data-coords');
-            var key = $(this).attr('name'));
+
+            var key = $(this).attr('name');
             $("#result").text($(this).val());
             $("#result").append($(this).attr('name'));
-            $("#result").append(coords);
 
         });
 
-         $("input[type=checkbox]").on("change keyup input", function(){
+        $("input[type=checkbox]").on("change keyup input", function(){
 
-            // Print entered value in a div box
-            $("#result").text($(this).attr('name'));
+           // Print entered value in a div box
+           $("#result").text($(this).attr('name'));
 
         });
-    });
+
+
+
+        $("input#measurements").on("hover",function(){
+
+            // highlight values, does not work so far
+
+            var number = $(this).attr('name');
+            var coords = $(this).attr('data-coords');
+            highlight_areas(coords, pos)
+
+        });
+
+
+      function highlight_areas(coords){
+
+       let x = pos.left;
+       let y = pos.top;
+       console.log(coords)
+
+        /*$('#yourdiv').append('<img src="/path/to/your/image.jpg"' + /
+        'style="width:auto;height:auto;position:absolute;' + /
+        'left:' + x + ';top:'+ y +'" />");*/
+
+
+        };
+
+     });
 
    </script>
-    <script type="text/javascript">
-    var key = "blub";
-    $(document).ready(function(key) {
-        $.ajax({
-            url: "http://127.0.0.1:7379/GET/" + key,
-            data: "format=json",
-            dataType: "json",
-            success: function(data)
-            {
-                $("#result").text(data.GET);
-            }
-        });
-    });
 
-
-</script>
 </body>

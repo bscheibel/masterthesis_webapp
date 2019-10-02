@@ -5,14 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-        $("input#measurements").on("hover",function(){
 
-            // highlight values, does work so far
-
-            val number = $(this).attr('name');
-            $("#result").append(number));
-
-        });
 
 
 
@@ -28,3 +21,27 @@
         });
 </body>
 </html>
+
+    <script>
+    function set_redis(key, value) {
+        $.ajax({
+            url: "http://127.0.0.1:7379/SET/" + key + "/" + value,
+            data: "format=json",
+            dataType: "json",
+            success: function(data)
+            {
+                $("#result").text(data.GET);
+            }
+        });
+    }
+
+    </script>
+    <script>
+
+
+
+    </script>
+
+
+
+
