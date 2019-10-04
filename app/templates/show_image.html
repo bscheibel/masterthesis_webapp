@@ -3,6 +3,7 @@
   <title>Dimension Extraction</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/pdfjs-dist@latest/build/pdf.min.js"></script>
 </head>
 
 <body>
@@ -12,10 +13,12 @@
             <h1>Drawing</h1>
             <p> <a href="http://localhost:5000/"> Upload another drawing </a> </p>
         {% if filename %}
-        <div class="images">
-            <img src="{{ url_for('send_file', filename=filename) }}" id="drawing"/>
-            <div class="red" ></div>
-        </div>
+             <div class="images">
+                <img id="drawing" src="{{ url_for('send_file', filename=filename) }}">
+             </div>
+         <!--   <input type="file" id="pdf-upload"/>
+            <hr/>
+            <canvas class="frame"></canvas>-->
         {% else %}
         <h1>no image for whatever reason</h1>
         {% endif %}
@@ -50,7 +53,7 @@
                 </table>
                 </form>
                 </font>
-        <div id="result">Result</div>
+        <div id="result">Result {{ number }}</div>
     </div>
     <!--<div class="split right">-->
     <div class="column column-three">
@@ -63,59 +66,107 @@
                 {% endfor %}
                 </table>
     </div>
+
 </div>
+
+    <script>
+    function set_redis(key, value) {
+        $.ajax({
+            type: "POST",
+            url: "/redis/set/" + key + "/" + value,
+            data: "format=json",
+            dataType: "text",
+            success: function(data)
+            {
+                (data.GET);
+            }
+        });
+    }
+
+     function get_redis(key) {
+        $.ajax({
+            type: "GET",
+            url: "redis/get/" + key,
+            data: "format=json",
+            dataType: "text",
+            success: function(data)
+            {
+                $("#result").text(data.GET);
+            }
+        });
+    }
+
+    </script>
 
 <script>
 
 
-    let pos = $("#drawing").position();
-
     $(document).ready(function(){
 
         $("input[type=number]").on("change keyup input", function(){
+            var json_value = new Object();
+            json_value.name = $(this).attr('name');
+            json_value.input = $(this).val();
 
+            var key = 'last' + "_" +'{{filename}}';
 
-            var key = $(this).attr('name');
-            $("#result").text($(this).val());
-            $("#result").append($(this).attr('name'));
+            console.log(JSON.stringify(json_value));
 
+            var value = json_value;
+            set_redis(key, value);
         });
 
         $("input[type=checkbox]").on("change keyup input", function(){
 
            // Print entered value in a div box
            $("#result").text($(this).attr('name'));
+           set_redis(key, value);
 
         });
 
 
 
-        $("input#measurements").on("hover",function(){
+        $("input[type=number]").focus(function(){
 
             // highlight values, does not work so far
 
             var number = $(this).attr('name');
             var coords = $(this).attr('data-coords');
-            highlight_areas(coords, pos)
+            highlight_areas(coords);
+
+        });
+
+        $("input[type=number]").blur(function(){
+
+          $("div").removeClass("red");
 
         });
 
 
       function highlight_areas(coords){
 
-       let x = pos.left;
-       let y = pos.top;
-       console.log(coords)
+       let pos = $("#drawing").position();
+       let drawing_x = pos.left;
+       let drawing_y = pos.top;
+       let array_coords = coords.split(",");
+       let coords_x = parseFloat(array_coords[0]);
+       let coords_y = parseFloat(array_coords[1]);
 
-        /*$('#yourdiv').append('<img src="/path/to/your/image.jpg"' + /
-        'style="width:auto;height:auto;position:absolute;' + /
-        'left:' + x + ';top:'+ y +'" />");*/
+       let width = $("#drawing").width();
+       let height = $("#drawing").height();
+       let x = width*(coords_x/595)-60;
+       let y = height*(coords_y/842)+10;
+       console.log(width, height);
 
+       let $point = jQuery("<div class='red'/>").css({top: (drawing_y + y) + 'px', left: (drawing_x + x) + 'px'})
+
+        $(".images").append($point);
 
         };
 
      });
 
-   </script>
+ </script>
+
 
 </body>

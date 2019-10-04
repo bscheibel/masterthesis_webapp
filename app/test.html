@@ -8,17 +8,6 @@
 
 
 
-
-        $('#getPos').on('click', function(){
-
-            var xRes = $('#xRes span'),
-                yRes = $('#yRes span'),
-                image = $('img#myImg');
-
-            xRes.html(image.offset().top);
-            yRes.html(image.offset().left);
-
-        });
 </body>
 </html>
 
@@ -44,4 +33,128 @@
 
 
 
+var url = "{{ url_for('send_file', filename=filename) }}";
+console.log(url);
+var file = url;
+var file_reader = new FileReader();
+typedarray = new Uint8Array(file);
 
+
+// Loaded via <script> tag, create shortcut to access PDF.js exports.
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+var loadingTask = pdfjsLib.getDocument({data : file});
+loadingTask.promise.then(function(pdf) {
+  console.log('PDF loaded');
+
+  // Fetch the first page
+  var pageNumber = 1;
+  pdf.getPage(pageNumber).then(function(page) {
+    console.log('Page loaded');
+
+    var scale = 1.5;
+    var viewport = page.getViewport({scale: scale});
+
+    // Prepare canvas using PDF page dimensions
+    var canvas = document.getElementById('the-canvas');
+    var context = canvas.getContext('2d');
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    // Render PDF page into canvas context
+    var renderContext = {
+      canvasContext: context,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+    renderTask.promise.then(function () {
+      console.log('Page rendered');
+    });
+  });
+}, function (reason) {
+  // PDF loading error
+  console.error(reason);
+});
+            <img src="{{ url_for('send_file', filename=filename) }}" id="drawing"/>
+
+</script>
+
+
+<script>
+var encoded_data = '{{ encoded_data }}';
+console.log(encoded_data);
+var pdf_data = atob(encoded_data);
+console_log(pdf_data);
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+
+var loadingTask = pdfjsLib.getDocument({pdf_data});
+loadingTask.promise.then(function(pdf) {
+  console.log('PDF loaded');
+
+  // Fetch the first page
+  var pageNumber = 1;
+  pdf.getPage(pageNumber).then(function(page) {
+    console.log('Page loaded');
+
+    var scale = 1.5;
+    var viewport = page.getViewport({scale: scale});
+
+    // Prepare canvas using PDF page dimensions
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    // Render PDF page into canvas context
+    var renderContext = {
+      canvasContext: context,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+    renderTask.promise.then(function () {
+      console.log('Page rendered');
+    });
+  });
+}, function (reason) {
+  // PDF loading error
+  console.error(reason);
+});
+
+
+
+</script>
+ document.querySelector("#pdf-upload").addEventListener("change", function(e){
+	var canvasElement = document.querySelector("canvas")
+	var file = e.target.files[0]
+	if(file.type != "application/pdf"){
+		console.error(file.name, "is not a pdf file.")
+		return
+	}
+
+	var fileReader = new FileReader();
+
+	fileReader.onload = function() {
+		var typedarray = new Uint8Array(this.result);
+
+		pdfjsLib.getDocument(typedarray).then(function(pdf) {
+			// you can now use *pdf* here
+			console.log("the pdf has ",pdf.numPages, "page(s).")
+			pdf.getPage(pdf.numPages).then(function(page) {
+				// you can now use *page* here
+				var viewport = page.getViewport(2.0);
+				var canvas = document.querySelector("canvas")
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+
+
+				page.render({
+					canvasContext: canvas.getContext('2d'),
+					viewport: viewport
+				});
+			});
+
+		});
+	};
+
+	fileReader.readAsArrayBuffer(file);

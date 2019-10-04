@@ -42,10 +42,7 @@ img {
 
 .column {
     flex: 1;
-
-    /*for demo purposes only */
     background: #f2f2f2;
-    /*border: 1px solid #e6e6e6;*/
     box-sizing: border-box;
 }
 .column-one {
@@ -70,4 +67,11 @@ height: 20px;
 position: absolute;
 left: 0px;
 top: 0px;
+}
+
+.frame {
+  flex: 1 1 auto;
+  border: 0;
+  height: 50%;
+  width: 100%;
 }
