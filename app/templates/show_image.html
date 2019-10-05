@@ -71,11 +71,13 @@
 
     <script>
     function set_redis(key, value) {
+
         $.ajax({
             type: "POST",
-            url: "/redis/set/" + key + "/" + value,
-            data: "format=json",
-            dataType: "text",
+            url: "/redis/set/" + key,
+            data: JSON.stringify({ value: value }),
+            dataType: "json",
+            contentType: "json",
             success: function(data)
             {
                 (data.GET);
@@ -104,16 +106,14 @@
     $(document).ready(function(){
 
         $("input[type=number]").on("change keyup input", function(){
-            var json_value = new Object();
-            json_value.name = $(this).attr('name');
-            json_value.input = $(this).val();
+            var array_value = [];
+            array_value[0] = $(this).attr('name');
+            array_value[1] = $(this).val();
 
-            var key = 'last' + "_" +'{{filename}}';
+            var key = 'last' + "_" +'{{og_filename}}';
 
-            console.log(JSON.stringify(json_value));
-
-            var value = json_value;
-            set_redis(key, value);
+            console.log(array_value);
+            set_redis(key, array_value);
         });
 
         $("input[type=checkbox]").on("change keyup input", function(){
