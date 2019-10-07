@@ -1,6 +1,25 @@
-var pdfjsLib = window['pdfjs-dist/build/pdf'];
+<!DOCTYPE html><meta charset="utf-8">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/text_layer_builder.css') }}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--
+<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+ -->
+<!-- <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>das funktioniert!!!!!
+<script type="javascript" src="{{ url_for('static', filename='js/pdf.js') }}"></script>-->
 
-//pdfjsLib.disableWorker = true;
+
+<script type="javascript" src="https://unpkg.com/pdfjs-dist@latest/build/pdf.js" ></script>
+https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.3.200/pdf.js
+<script type="javascript" src="{{ url_for('static', filename='js/text_layer_builder.js') }}"></script>
+<script type="javascript" src="{{ url_for('static', filename='js/ui_utils.js') }}"></script>
+<body>
+<canvas id="the-canvas"></canvas>
+<script>
+
+var url = "{{ url_for('send_file', filename=og_filename) }}";
+
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.disableWorker = true;
 
 pdfjsLib.getDocument(url).then(function(pdf){
     var page_num = 1;
@@ -38,40 +57,6 @@ pdfjsLib.getDocument(url).then(function(pdf){
         });
     });
 });
-
-
-
-
-
-var loadingTask = pdfjsLib.getDocument(url);
-loadingTask.promise.then(function(pdf) {
-  console.log('PDF loaded');
-
-  // Fetch the first page
-  var pageNumber = 1;
-  pdf.getPage(pageNumber).then(function(page) {
-    console.log('Page loaded');
-
-    var scale = 1.5;
-    var viewport = page.getViewport({scale: scale});
-
-    // Prepare canvas using PDF page dimensions
-    var canvas = document.getElementById('the-canvas');
-    var context = canvas.getContext('2d');
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-
-    // Render PDF page into canvas context
-    var renderContext = {
-      canvasContext: context,
-      viewport: viewport
-    };
-    var renderTask = page.render(renderContext);
-    renderTask.promise.then(function () {
-      console.log('Page rendered');
-    });
-  });
-}, function (reason) {
-  // PDF loading error
-  console.error(reason);
-});
+</script>
+</body>
+</html>

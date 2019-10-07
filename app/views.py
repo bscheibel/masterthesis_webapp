@@ -12,8 +12,7 @@ import base64
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
 
-#UPLOAD_FOLDER = '/Users/beatescheibel/Desktop/flask/uploads'
-UPLOAD_FOLDER = "./static/"
+UPLOAD_FOLDER = "/home/bscheibel/app/app/temporary"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'PDF'])
 
@@ -25,7 +24,7 @@ def allowed_file(filename):
 def convert_pdf_img(filename):
     PDFFILE = UPLOAD_FOLDER +"/" + filename
     subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
-                     PDFFILE, '/home/bscheibel/PycharmProjects/app/app/temporary/out'])
+                     PDFFILE, '/home/bscheibel//app/app/temporary/out'])
 
 def extract_all(uuid, filename, db):
     #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
@@ -37,7 +36,8 @@ def upload_file():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = file.filename
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            basedir = os.path.abspath(os.path.dirname(__file__))
+            file.save(os.path.join(basedir,app.config["UPLOAD_FOLDER"], filename))
             uuid = random.randint(100,10000000)
             extract_all(uuid, filename, 'localhost')
             return redirect(url_for('uploaded_file', filename=filename, uuid=uuid))
@@ -53,7 +53,7 @@ def upload_file():
 
 @app.route('/show/<filename>&<uuid>')
 def uploaded_file(filename, uuid):
-    file_out = "temporary/out.jpg"
+    file_out = "out.jpg"
     #file_out = filename
     if request.method == 'POST':
         uuid = 433
@@ -87,12 +87,13 @@ def uploaded_file(filename, uuid):
                         steps = 0.1
                 except:
                     number = d
+                    steps = 0.1
                 coords = ",".join(str(e) for e in dims[dim][d])
                 html_code += "<tr><td style='text-align:center'> <input type='checkbox' name='relevant." + d + "' value='checked'> </td>" + \
                              "<td style='text-align:center'>" + d + "</td>" + \
                              "<td style='text-align:center'> <input type='number' step='" + str(steps) + "' data-coords='" + coords + "' name='" + d + "' value='" + number + "'  size='10'> </td></tr>"
                 #print(html_code)
-        return render_template('show_image.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename)
+        return render_template('show_pdf.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename)
 
     else:
         filename = filename
