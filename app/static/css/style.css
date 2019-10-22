@@ -31,6 +31,7 @@ img {
 
 .images{
   flex: 1 1 auto;
+  padding: 0;
   min-width: 15em;
   max-width: 800px;
 }
@@ -60,14 +61,24 @@ img {
 }
 
 .red{
+/*padding: 10;*/
 background: red;
 opacity: 0.4;
-width: 20px;
+position: absolute;
+left: 0px;
+top: 0px;
+}
+
+.green{
+background: red;
+opacity: 0.2;
+width: 20;
 height: 20px;
 position: absolute;
 left: 0px;
 top: 0px;
 }
+
 
 .frame {
   flex: 1 1 auto;

@@ -4,6 +4,7 @@ from flask import request, redirect, url_for, send_from_directory, render_templa
 import subprocess
 import redis
 import random
+import PyPDF2
 import json
 import os
 import json
@@ -30,6 +31,19 @@ def extract_all(uuid, filename, db):
     #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
     subprocess.call(['python3','/home/bscheibel/PycharmProjects/dxf_reader/main.py', str(uuid),UPLOAD_FOLDER + "/" + filename, db, str(0)])
 
+def get_file_size(file):
+    pdf = PyPDF2.PdfFileReader(file)
+    p = pdf.getPage(0)
+
+    w = p.mediaBox.getWidth()
+    h= p.mediaBox.getHeight()
+
+    print(w,h)
+    return w,h
+
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -55,20 +69,32 @@ def upload_file():
 def uploaded_file(filename, uuid):
     file_out = "out.jpg"
     #file_out = filename
-    if request.method == 'POST':
-        uuid = 433
+    #if request.method == 'POST':
+    #    uuid = 433
     if filename.endswith(".pdf") or filename.endswith(".PDF"):
+        w,h = get_file_size(UPLOAD_FOLDER +"/" + filename)
         convert_pdf_img(filename)
         db = redis.Redis("localhost")
         #isos = db.get(uuid+"dims")
         #print(iso)
         isos = json.loads(db.get(str(uuid)+"isos"))
         dims = json.loads(db.get(str(uuid)+"dims"))
+        details = json.loads(db.get(str(uuid) + "details"))
         number_blocks = db.get(str(uuid)+"eps")
         html_code = ""
         reg = r"(-?\d{1,}\.?\d*)"
         for dim in dims:
-            html_code += '''<td><h4>''' + dim + '''</h4></td>'''
+            print(dim)
+            for det in details:
+                print(det)
+                try:
+                    if dim == det:
+                        det_coords = details[det]
+                        det_coords = ",".join(str(det) for det in det_coords)
+                except:
+                    det_coords = "0"
+
+            html_code += "<td><h4>" + dim + "</h4></td>"
             for d in dims[dim]:
                 try:
                     number = re.search(reg, d)
@@ -91,9 +117,9 @@ def uploaded_file(filename, uuid):
                 coords = ",".join(str(e) for e in dims[dim][d])
                 html_code += "<tr><td style='text-align:center'> <input type='checkbox' name='relevant." + d + "' value='checked'> </td>" + \
                              "<td style='text-align:center'>" + d + "</td>" + \
-                             "<td style='text-align:center'> <input type='number' step='" + str(steps) + "' data-coords='" + coords + "' name='" + d + "' value='" + number + "'  size='10'> </td></tr>"
+                             "<td style='text-align:center'> <input type='number' step='" + str(steps) + "' data-coords='" + coords + " 'data-details='" + det_coords  +"'' name='" + d + "' value='" + number + "'  size='10'> </td></tr>"
                 #print(html_code)
-        return render_template('show_pdf.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename)
+        return render_template('show_image_old_working.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename, w=w, h=h)
 
     else:
         filename = filename
@@ -151,4 +177,6 @@ def redis_set(key):
         json_dict = json.dumps(dict_res)
         db.set(key, json_dict)
     return "OK"
+
+
 
