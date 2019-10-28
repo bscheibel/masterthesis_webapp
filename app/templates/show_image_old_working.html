@@ -59,7 +59,15 @@
     <!--<div class="split right">-->
     <div class="column column-three">
             <h1>Additional Infos</h1>
-                {{ links }}
+        <table>
+            {% for link in links %}
+            <tr>
+                    {% set l=links[link] %}
+                 <td> <h3> <a href=" {{ url_for('static', filename=l) }}" > {{ link }} </a> </h3> </td>
+             </tr>
+            {% endfor %}
+
+            </table>
     </div>
 
 </div>
@@ -91,7 +99,11 @@
                 $("#result").text(data.GET);
             }
         });
-    }
+
+      function split_string(string) {
+            var string = str.split(" ",2);
+            return string;
+        });
 
     </script>
 

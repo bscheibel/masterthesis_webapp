@@ -41,7 +41,21 @@ def get_file_size(file):
     print(w,h)
     return w,h
 
-
+def check_links(isos):
+    link_names = {}
+    for name in isos:
+        try:
+            name = name.replace(" ", "")
+            url1 = name + ".PDF"
+            #print(url)
+            file = send_from_directory("static/isos",url1)
+            url = "isos/" + url1
+            #link_names.append(url)
+            link_names[url1] = url
+            print(link_names)
+        except:
+            print("Sorry file not found")
+    return link_names
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -78,6 +92,7 @@ def uploaded_file(filename, uuid):
         #isos = db.get(uuid+"dims")
         #print(iso)
         isos = json.loads(db.get(str(uuid)+"isos"))
+        links = check_links(isos)
         dims = json.loads(db.get(str(uuid)+"dims"))
         details = json.loads(db.get(str(uuid) + "details"))
         number_blocks = db.get(str(uuid)+"eps")
@@ -119,7 +134,7 @@ def uploaded_file(filename, uuid):
                              "<td style='text-align:center'>" + d + "</td>" + \
                              "<td style='text-align:center'> <input type='number' step='" + str(steps) + "' data-coords='" + coords + " 'data-details='" + det_coords  +"'' name='" + d + "' value='" + number + "'  size='10'> </td></tr>"
                 #print(html_code)
-        return render_template('show_image_old_working.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename, w=w, h=h)
+        return render_template('show_image_old_working.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename, w=w, h=h, links=links)
 
     else:
         filename = filename
@@ -142,15 +157,6 @@ def add_header(response):
     return response
 
 
-@app.route('/generate/<name>')
-def generate(name):
-    name = name.replace(" ","")
-    url = name+".PDF"
-    try:
-        file = send_from_directory("static/isos",url)
-        return file
-    except:
-        return"Sorry file not found"
 
 @app.route('/redis/get/<key>',methods=['GET'])
 def redis_get(key):
