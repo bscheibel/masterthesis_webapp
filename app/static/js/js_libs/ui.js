@@ -43,18 +43,35 @@ function ui_add_tab(tabbed,title,id,closeable,additionalclasses) {
     return false;
   } else {
     var instab = $("<ui-tab class='inactive" + (closeable ? ' closeable' : '') + (additionalclasses == '' ? '' : ' ' + additionalclasses) + "' data-tab='" + id + "'>" + title + "</ui-tab>");
-    var insarea = $("<ui-area data-belongs-to-tab='" + id + "' class='inactive'></ui-area>");
+    var insarea = $("<ui-area data-belongs-to-tab='" + id + "' class='inactive' id="+ id +"></ui-area>");
     $(tabbed).find('ui-behind').before(instab);
     $(tabbed).find('ui-content').append(insarea);
     ui_add_close($('ui-tabbar ui-tab[data-tab=' + id + ']'));
     return true;
   }
 }
+
+function create_new_tab(title, id) {
+    console.log(title,id);
+    var theDiv = document.getElementById(id);
+    var content = document.createTextNode(id);
+    var content = document.createTextNode(id);
+    var newElement = document.createElement('div');
+    newElement.setAttribute('id', id);
+    newElement.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF')'> </iframe>";
+    theDiv.appendChild(content);
+    theDiv.appendChild(newElement);
+    return true;
+}
+
 function ui_add_tab_active(tabbed,title,id,closeable,additionalclasses) {
   var state = ui_add_tab(tabbed,title,id,closeable,additionalclasses);
+  if (state) { create_new_tab(title, id); }
   if (state) { ui_activate_tab($('ui-tabbar ui-tab[data-tab=' + id + ']')); }
   return state;
 }
+
+
 
 function ui_clone_tab(tabbar,original,title,id,closeable,additionalclasses) {
   additionalclasses = typeof additionalclasses !== 'undefined' ? additionalclasses : '';

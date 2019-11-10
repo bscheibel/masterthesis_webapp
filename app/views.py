@@ -136,7 +136,7 @@ def uploaded_file(filename, uuid):
 
 
                 for x in relevant_isos:
-                    html_code += "<td style='text-align:center'> <a href=" + url_for('static', filename="isos/"+x) + " >"+ x.partition(".")[0]  +"</a>  </td>"
+                    html_code += "<td style='text-align:left'> <a href=" + url_for('static', filename="isos/"+x) + " >"+ x.partition(".")[0]  +"</a>  </td>"
                 #print(html_code)
         return render_template('show_image_old_working.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename, w=w, h=h, links=links)
 

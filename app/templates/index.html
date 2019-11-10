@@ -54,7 +54,7 @@
               <ui-before>
                 <a class="logo" href="/"> </a>
               </ui-before>
-              <ui-tab class="" data-tab="drawing" >Drawing
+              <ui-tab class="default" data-tab="drawing" >Drawing
 
               </ui-tab>
 
@@ -62,33 +62,24 @@
             </ui-tabbar>
          <!--</ui-rest>-->
           <ui-content>
-              <ui-area data-belongs-to-tab="drawing">
+              <ui-area data-belongs-to-tab="drawing" >
                   <div class="images">
                   <img  class="optcontent" id="drawing" src="{{ url_for('send_file', filename=filename) }}" alt="Drawing">
                   </div>
 
               </ui-area>
 
-
-          <ui-area data-belongs-to-tab="iso" class="optcontent inactive ">
-                TEEEEESST
-
-
-          </ui-area>
           </ui-content>
         </ui-area>
 
         <ui-resizehandle data-label="drag to resize"></ui-resizehandle>
         <ui-area id="detailcolumn1" data-minsize="20em">
           <h3 style="text-align:left"> Regulatory Documents</h3>
+            <div id="dat_details" class='x-ui-layout'>
             <table style='text-align:left'>
-
-              <div id="dat_details" class='x-ui-layout'>
                 <tr>
                   {{ html_links | safe }}
                 </tr>
-              </div>
-
 
             {% for iso in isos_names %}
             <tr>
@@ -96,6 +87,7 @@
              </tr>
             {% endfor %}
         </table>
+            </div>
 
           <div id="measurements">
                 <font >
