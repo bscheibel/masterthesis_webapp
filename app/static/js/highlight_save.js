@@ -1,91 +1,8 @@
-<!doctype html>
-<head>
-  <title>Dimension Extraction</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://unpkg.com/pdfjs-dist@latest/build/pdf.min.js"></script>
-</head>
+    function log(){
+      console.log("test");
 
-<body>
-<!--<div class="split left">-->
-<div class="container">
-    <div class="column column-one">
-            <h1>Drawing</h1>
-            <p> <a href="http://localhost:5000/"> Upload another drawing </a> </p>
+    }
 
-        <table style='text-align:left'>
-            {% for link in links %}
-            <tr>
-                    {% set l=links[link] %}
-                 <td style='text-align:left'>  <a href=" {{ url_for('static', filename=l) }}" > {{ link }} </a> </td>
-             </tr>
-            {% endfor %}
-            {% for iso in isos_names %}
-            <tr>
-                 <td style='text-align:left'> {{ iso }}</td>
-             </tr>
-            {% endfor %}
-
-        </table>
-        {% if filename %}
-             <div class="images">
-                <img id="drawing" src="{{ url_for('send_file', filename=filename) }}">
-             </div>
-        {% else %}
-            <h1>no image for whatever reason</h1>
-        {% endif %}
-
-    </div>
-<!--<div class="split middle">-->
-    <div class="column column-two" id="measurements">
-            <h1>Extracted Measurements</h1>
-                <font size="3" face="Courier New" >
-                <form>
-                <table>
-                    <tr>
-                        <td style="text-align:center"><h3>Key Value</h3></td>
-                        <td style="text-align:center"><h3>Target Value</h3></td>
-                        <td style="text-align:center"><h3>Actual Value</h3></td>
-                        <td style="text-align:center"><h3>Relevant Isos</h3></td>
-                    </tr>
-
-                        {{ text | safe}}
-
-
-                 <!--  {% for key in dims %}
-                    <td><h4> {{key}} </h4></td>
-                        {% for d in dims[key] %}
-                    <tr>
-                        <td style="text-align:center"><input type="checkbox" name="relevant[]" value="checked"></td>
-                        <td style="text-align:center"> {{ d }}</td>
-                        <td style="text-align:center"><input type="text" name="{{ d }}" size="10"></td>
-                    </tr>
-                        {% endfor %}
-                    {% endfor %}-->
-
-
-                </table>
-                </form>
-                </font>
-      <!--  </div> <div id="result">Result {{ number }}</div>-->
-
-    <!--<div class="split right">
-    <div class="column column-three">
-            <h1>Additional Infos</h1>
-        <table>
-            {% for link in links %}
-            <tr>
-                    {% set l=links[link] %}
-                 <td> <h3> <a href=" {{ url_for('static', filename=l) }}" > {{ link }} </a> </h3> </td>
-             </tr>
-            {% endfor %}
-
-            </table>
-    </div>
-
-</div>
-
-    <script>
     function set_redis(key, value) {
 
         $.ajax({
@@ -112,15 +29,12 @@
                 $("#result").text(data.GET);
             }
         });
+       }
 
       function split_string(string) {
             var string = str.split(" ",2);
             return string;
-        });
-
-    </script>
-
-<script>
+        };
 
 
     $(document).ready(function(){
@@ -252,8 +166,3 @@
         };
 
      });
-
- </script>
-
-
-</body>

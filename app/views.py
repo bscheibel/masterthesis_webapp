@@ -132,7 +132,11 @@ def uploaded_file(filename, uuid):
                 coords = ",".join(str(e) for e in dims[dim][d])
                 html_code += "<tr><td style='text-align:center'> <input type='checkbox' name='relevant." + d + "' value='checked'> </td>" + \
                              "<td style='text-align:center'>" + d + "</td>" + \
-                             "<td style='text-align:center'> <input type='number' step='" + str(steps) + "' data-coords='" + coords + " 'data-details='" + det_coords  +"'' name='" + d + "' value='" + number + "'  size='10'> </td></tr>"
+                             "<td max='3' style='text-align:center'> <input type='number' step='" + str(steps) + "' data-coords='" + coords + " 'data-details='" + det_coords  +"'' name='" + d + "' value='" + number + "'> </td>"
+
+
+                for x in relevant_isos:
+                    html_code += "<td style='text-align:center'> <a href=" + url_for('static', filename="isos/"+x) + " >"+ x.partition(".")[0]  +"</a>  </td>"
                 #print(html_code)
         return render_template('show_image_old_working.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename, w=w, h=h, links=links)
 
@@ -186,3 +190,6 @@ def redis_set(key):
 
 
 
+@app.route('/index')
+def test():
+    return render_template('index.html')

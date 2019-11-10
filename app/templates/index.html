@@ -1,45 +1,104 @@
-<!doctype html>
-<head>
-  <title>Dimension Extraction</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://unpkg.com/pdfjs-dist@latest/build/pdf.min.js"></script>
-</head>
+<!--
+  This file is part of centurio.work/edi.
 
-<body>
-<!--<div class="split left">-->
-<div class="container">
-    <div class="column column-one">
-            <h1>Drawing</h1>
-            <p> <a href="http://localhost:5000/"> Upload another drawing </a> </p>
+  centurio.work/edi is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option) any
+  later version.
 
-        <table style='text-align:left'>
-            {% for link in links %}
-            <tr>
-                    {% set l=links[link] %}
-                 <td style='text-align:left'>  <a href=" {{ url_for('static', filename=l) }}" > {{ link }} </a> </td>
-             </tr>
-            {% endfor %}
+  centurio.work/edi is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+  more details.
+
+  You should have received a copy of the GNU General Public License along with
+  centurio.work/edi (file COPYING in the main directory).  If not, see
+  <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Resources</title>
+
+    <!-- libs, do not modify. When local than load local libs. -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.browser.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.svg.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.svgdom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/vkbeautify.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/util.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/printf.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs//strftime.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/parsequery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/underscore.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.caret.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.cookie.js') }}"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/ui.js') }}"></script>
+    <link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/ui.css') }}" type="text/css"/>
+
+    <link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/cdp_ui.css') }}" type="text/css"/>
+
+    <!--<link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/css/ui.css') }}" type="text/css"/>-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}" type="text/css"/>
+
+  <body is="x-ui">
+    <ui-rest id="main">
+      <ui-content>
+        <ui-area id='datacolumn'>
+          <!-- <ui-rest id="sub">  with this the content does not work for other tabs -->
+            <ui-tabbar>
+              <ui-before>
+                <a class="logo" href="/"> </a>
+              </ui-before>
+              <ui-tab class="" data-tab="drawing" >Drawing
+
+              </ui-tab>
+
+              <ui-behind                                       ></ui-behind>
+            </ui-tabbar>
+         <!--</ui-rest>-->
+          <ui-content>
+              <ui-area data-belongs-to-tab="drawing">
+                  <div class="images">
+                  <img  class="optcontent" id="drawing" src="{{ url_for('send_file', filename=filename) }}" alt="Drawing">
+                  </div>
+
+              </ui-area>
+
+
+          <ui-area data-belongs-to-tab="iso" class="optcontent inactive ">
+                TEEEEESST
+
+
+          </ui-area>
+          </ui-content>
+        </ui-area>
+
+        <ui-resizehandle data-label="drag to resize"></ui-resizehandle>
+        <ui-area id="detailcolumn1" data-minsize="20em">
+          <h3 style="text-align:left"> Regulatory Documents</h3>
+            <table style='text-align:left'>
+
+              <div id="dat_details" class='x-ui-layout'>
+                <tr>
+                  {{ html_links | safe }}
+                </tr>
+              </div>
+
+
             {% for iso in isos_names %}
             <tr>
                  <td style='text-align:left'> {{ iso }}</td>
              </tr>
             {% endfor %}
-
         </table>
-        {% if filename %}
-             <div class="images">
-                <img id="drawing" src="{{ url_for('send_file', filename=filename) }}">
-             </div>
-        {% else %}
-            <h1>no image for whatever reason</h1>
-        {% endif %}
 
-    </div>
-<!--<div class="split middle">-->
-    <div class="column column-two" id="measurements">
-            <h1>Extracted Measurements</h1>
-                <font size="3" face="Courier New" >
+          <div id="measurements">
+                <font >
                 <form>
                 <table>
                     <tr>
@@ -51,41 +110,23 @@
 
                         {{ text | safe}}
 
-
-                 <!--  {% for key in dims %}
-                    <td><h4> {{key}} </h4></td>
-                        {% for d in dims[key] %}
-                    <tr>
-                        <td style="text-align:center"><input type="checkbox" name="relevant[]" value="checked"></td>
-                        <td style="text-align:center"> {{ d }}</td>
-                        <td style="text-align:center"><input type="text" name="{{ d }}" size="10"></td>
-                    </tr>
-                        {% endfor %}
-                    {% endfor %}-->
-
-
                 </table>
                 </form>
                 </font>
-      <!--  </div> <div id="result">Result {{ number }}</div>-->
 
-    <!--<div class="split right">
-    <div class="column column-three">
-            <h1>Additional Infos</h1>
-        <table>
-            {% for link in links %}
-            <tr>
-                    {% set l=links[link] %}
-                 <td> <h3> <a href=" {{ url_for('static', filename=l) }}" > {{ link }} </a> </h3> </td>
-             </tr>
-            {% endfor %}
+           </div>
+        </ui-area>
 
-            </table>
-    </div>
+      </ui-content>
+    </ui-rest>
 
-</div>
 
     <script>
+    function log(){
+      console.log("test");
+
+    }
+
     function set_redis(key, value) {
 
         $.ajax({
@@ -112,11 +153,12 @@
                 $("#result").text(data.GET);
             }
         });
+       }
 
       function split_string(string) {
             var string = str.split(" ",2);
             return string;
-        });
+        };
 
     </script>
 
@@ -253,7 +295,6 @@
 
      });
 
- </script>
-
-
-</body>
+  </script>
+  </body>
+</html>

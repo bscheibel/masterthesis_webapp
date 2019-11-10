@@ -1,0 +1,98 @@
+#graphcolumn {
+  flex: 7.5 1 0%;
+  padding: 0;
+  margin: 0;
+}
+
+#detailcolumn {
+  flex: 2.5 1 0%;
+  padding: 1em 1em 1em 2em;
+  margin: 0;
+}
+
+.optcontent input {
+  width: 8em;
+}
+
+.optcontent .stuff, #detailcolumn .new {
+  padding-left: 1em;
+  padding-bottom: 1em;
+  padding-top: 0.5em;
+}
+.optcontent .stuff > div {
+  padding-bottom: 0.2em;
+}
+
+.optcontent .heading {
+  font-weight: bold;
+}
+
+.draw {
+  width: 1253px;
+  height: 1023px;
+  background-image: url("uebersicht.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: contain;
+}
+
+.draw g.node rect {
+  stroke: #a4a4a4;
+  stroke-width: 0.01em;
+  fill: rgba(255, 255, 255, 1);
+}
+
+.draw .station {
+  font-size: 0.06em;
+  padding: 0.2em;
+  border: 0.2em solid #a4a4a4;
+  border-radius: 0.5em;
+  background-color: rgba(255, 255, 255, 1);
+  z-index: 99;
+  width: 7.1em;
+  white-space: pre-line;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden;
+}
+
+.draw g.node:hover rect {
+  fill: rgba(255, 189, 189, 1);
+}
+.draw g.node.active rect {
+  fill: rgba(255, 189, 189, 1);
+}
+
+.draw polyline.conn-red {
+  stroke:rgb(255,0,0);
+  stroke-width:0.2;
+  fill:none;
+}
+.draw polyline.conn-green {
+  stroke:rgb(0,255,0);
+  stroke-width:0.2;
+  fill:none;
+}
+
+.station-condition {
+  padding-left: 2em;
+}
+.station-id {
+  font-weight: bold;
+}
+
+input.c2 {
+  width: 15em;
+}
+input.c3 {
+  width: 4em;
+}
+input.c4 {
+  width: 25em;
+}
+input.c5 {
+  width: 21em;
+}
+input.c6 {
+  width: 2em;
+}
