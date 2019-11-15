@@ -74,22 +74,23 @@
 
         <ui-resizehandle data-label="drag to resize"></ui-resizehandle>
         <ui-area id="detailcolumn1" data-minsize="20em">
-          <h3 style="text-align:left"> Regulatory Documents</h3>
-            <div id="dat_details" class='x-ui-layout column-one'>
-                <tr>
+            <h3 style="text-align:center"> General Information</h3>
+            <div id="dat_details" class='x-ui-layout'>
+
+                <div class="column-one" style="width:50%;float:left">
+
                   {{ html_links | safe }}
-                </tr>
 
                 {% for iso in isos_names %}
-                <tr>
-                    <td style='text-align:left'> {{ iso }} (Document not available)</td><br>
-                </tr>
+                    {{ iso }} (Document not available)<br>
                 {% endfor %}
-            </div>
-            <div class="x-ui-layout column-two">
-                testtestetse
-            </div>
 
+                </div>
+                <div class="column-two" style="width:50%;float:right">
+
+                {{ html_general | safe }}
+                </div>
+            </div>
           <div id="measurements">
                 <font >
                 <form>

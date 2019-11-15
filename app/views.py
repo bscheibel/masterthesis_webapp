@@ -41,6 +41,16 @@ def get_file_size(file):
     print(w,h)
     return w,h
 
+def check_config_file(d):
+    reg_search = d
+    #print(reg_search)
+
+    for conf in d:
+        print(conf)
+
+    return "blub"
+
+
 def check_links(isos):
     link_names = {}
     for name in isos:
@@ -97,6 +107,7 @@ def uploaded_file(filename, uuid):
         details = json.loads(db.get(str(uuid) + "details"))
         number_blocks = db.get(str(uuid)+"eps")
         html_code = ""
+        html_general = ""
         reg = r"(-?\d{1,}\.?\d*)"
         for dim in dims:
             print(dim)
@@ -137,7 +148,7 @@ def uploaded_file(filename, uuid):
 
                 for x in relevant_isos:
                     #html_code += "<td style='text-align:left'> <a href=" + url_for('static', filename="isos/"+x) + " >"+ x.partition(".")[0]  +"</a>  </td>"
-                    html_code += "<td style='text-align:left'> <a onclick=ui_add_tab_active('#main','" + x.partition(".")[0] + "','" + x.partition(".")[0] +"',true,'isotab')>" + x.partition(".")[0] + "</a>  </td>"
+                    html_code += "<td style='text-align:left' data-terms='" + terms + "'> <a onclick=ui_add_tab_active('#main','" + x.partition(".")[0] + "','" + x.partition(".")[0] +"',true,'isotab')>" + x.partition(".")[0] + "</a>  </td>"
                 #print(html_code)
         return render_template('show_image_old_working.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename, w=w, h=h, links=links)
 
@@ -194,3 +205,4 @@ def redis_set(key):
 @app.route('/index')
 def test():
     return render_template('index.html')
+

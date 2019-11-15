@@ -5,13 +5,15 @@
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
  -->
 
-<!--<script type="javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.3.200/pdf.js"></script>
- das funktioniert!!!!!
+<script type="javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.3.200/pdf.js"></script>
+<!-- das funktioniert!!!!!
 <script type="javascript" src="https://unpkg.com/pdfjs-dist@latest/build/pdf.js" ></script>
-<script type="javascript" src="{{ url_for('static', filename='js/pdf.js') }}"></script>-->
-
+<script type="javascript" src="{{ url_for('static', filename='js/pdf.js') }}"></script>
 
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+-->
+
+
 <script type="javascript" src="{{ url_for('static', filename='js/text_layer_builder.js') }}"></script>
 <script type="javascript" src="{{ url_for('static', filename='js/ui_utils.js') }}"></script>
 <body>
@@ -20,6 +22,7 @@
 
 
 var url = "{{ url_for('send_file', filename=og_filename) }}";
+console.log(og_filename);
 
 var pdfjsLib = window['pdfjs-dist/build/pdf'];
 
