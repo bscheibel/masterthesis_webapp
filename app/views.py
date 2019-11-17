@@ -53,19 +53,37 @@ def check_config_file(d):
 
 def check_links(isos):
     link_names = {}
+    isos_names = []
+    isos = list(set(isos))
+    reg_isos = r"(ISO\s\d*)\s1\-(\d?)"
+    print(isos)
+    isos_new = []
     for name in isos:
+        if re.search(reg_isos, name):
+            n = 1
+            #print(name)
+            new_isos = re.search(reg_isos,name).group(1)
+            number = re.search(reg_isos,name).group(2)
+            while n <= int(number):
+                isos_new.append(new_isos+"-"+str(n))
+                n += 1
+        else:
+            isos_new.append(name)
+    for name in isos_new:
         try:
             name = name.replace(" ", "")
+            #name = name.replace("-"," ")
             url1 = name + ".PDF"
             #print(url)
             file = send_from_directory("static/isos",url1)
             url = "isos/" + url1
             #link_names.append(url)
-            link_names[url1] = url
-            print(link_names)
+            link_names[name] = url
+            #print(link_names)
         except:
-            print("Sorry file not found")
-    return link_names
+            #print(name)
+            isos_names.append(name)
+    return link_names, isos_names
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -91,7 +109,7 @@ def upload_file():
 
 @app.route('/show/<filename>&<uuid>')
 def uploaded_file(filename, uuid):
-    file_out = "out.jpg"
+    """file_out = "out.jpg"
     #file_out = filename
     #if request.method == 'POST':
     #    uuid = 433
@@ -102,26 +120,56 @@ def uploaded_file(filename, uuid):
         #isos = db.get(uuid+"dims")
         #print(iso)
         isos = json.loads(db.get(str(uuid)+"isos"))
-        links = check_links(isos)
+        links, isos_names = check_links(isos)
         dims = json.loads(db.get(str(uuid)+"dims"))
         details = json.loads(db.get(str(uuid) + "details"))
         number_blocks = db.get(str(uuid)+"eps")
         html_code = ""
         html_general = ""
         reg = r"(-?\d{1,}\.?\d*)"
-        for dim in dims:
-            print(dim)
+        #re_gewinde = r"M\d{1,2}"
+        #re_passungen = r"h\d{1,2}|H\d{1,2}"
+        det_coords= "0,0,0,0"
+        with open('/home/bscheibel/app/app/config.json') as f:
+            config_file = json.load(f)
+
+        for dim in sorted(dims):
+            #print(dim)
             for det in details:
-                print(det)
+                #print(det)
                 try:
                     if dim == det:
                         det_coords = details[det]
                         det_coords = ",".join(str(det) for det in det_coords)
                 except:
-                    det_coords = "0"
-
-            html_code += "<td><h4>" + dim + "</h4></td>"
+                    det_coords = "0,0,0,0"
+            if "ZZZZ" in dim:
+                for d in dims[dim]:
+                    html_general += d + "<br>"
+            else:
+                html_code += "<td><h4>" + dim + "</h4></td>"
             for d in dims[dim]:
+                relevant_isos = []
+                search_terms = []
+                #if "Ra" in d or "Rz" in d or "Rpk" in d:
+                #    relevant_isos.append("ISO4287.PDF")
+                #if u"\u27C2" in d or u"\u25CE" in d or u"\u232D" in d or u"\u2225" in d or u"\u232F" in d or u"\u2316" in d or u"\u2313" in d or u"\u23E5" in d:
+                #    relevant_isos.append("ISO1101.PDF")
+                #if re.search(re_gewinde,d):
+                #    relevant_isos.append("ISO6410.PDF")
+                #if "GG" in d or "CT" in d or "GX" in d:
+                #    relevant_isos.append("ISO14405-1.PDF")
+                #if re.search(re_passungen,d):
+                #    relevant_isos.append("ISO286-1.PDF")
+                for conf in config_file:
+                    if re.search(conf,d):
+                        iso = config_file[conf]
+                        for key in iso:
+                            relevant_isos.append(key)
+                            search_terms = iso[key]
+
+                terms = ",".join(str(e) for e in search_terms)
+
                 try:
                     number = re.search(reg, d)
                     number = number.group(1)
@@ -150,11 +198,18 @@ def uploaded_file(filename, uuid):
                     #html_code += "<td style='text-align:left'> <a href=" + url_for('static', filename="isos/"+x) + " >"+ x.partition(".")[0]  +"</a>  </td>"
                     html_code += "<td style='text-align:left' data-terms='" + terms + "'> <a onclick=ui_add_tab_active('#main','" + x.partition(".")[0] + "','" + x.partition(".")[0] +"',true,'isotab')>" + x.partition(".")[0] + "</a>  </td>"
                 #print(html_code)
-        return render_template('show_image_old_working.html', filename=file_out, isos=isos, dims=dims, text=html_code, number=number_blocks, og_filename=filename, w=w, h=h, links=links)
+                html_code += "</tr>"
+                html_links = ""
+                for link in links:
+                    html_links += "<a onclick =ui_add_tab_active('#main','" + link + "','" + link +"',true,'isotab')> Open " + link + "</a> <br>"
+                    #html_links += "<tr> <td> <a onclick =ui_add_tab_active('#main','iso1','iso1',true,'isotab')> Open " + link + " in Tab </a> </td> </tr>"""
+        #return render_template('show_pdf.html', filename=file_out, isos=isos, dims=dims, text=html_code,html_general=html_general, number=number_blocks, og_filename=filename, w=w, h=h, html_links=html_links, isos_names=isos_names)
+    return render_template('show_pdf.html', og_filename=filename)
 
-    else:
-        filename = filename
-        return render_template('show_image.html', filename=filename)
+    #else:
+    #    filename = filename
+    #    return render_template('show_image.html', filename=filename)
+
 
 @app.route('/uploads/<filename>')
 def send_file(filename):

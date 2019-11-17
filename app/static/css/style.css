@@ -82,3 +82,9 @@ top: 0px;
   height: 50%;
   width: 100%;
 }
+
+table {
+    margin:auto;
+  }
+
+#datacolumn { padding: 0; }
