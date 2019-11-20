@@ -13,7 +13,7 @@
 <script type="javascript" src="{{ url_for('static', filename='js/text_layer_builder.js') }}"></script>
 <script type="javascript" src="{{ url_for('static', filename='js/ui_utils.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pdfjs-dist@1.9/web/pdf_viewer.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/web/pdf_viewer.css">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/text_layer_builder.css') }}" />
 
@@ -73,37 +73,37 @@ pdfjsLib.getDocument(url)
 
           // Render PDF page
          page.render(renderContext).promise.then(function() {
-    // Get text-fragments
+    // Returns a promise, on resolving it will return text contents of the page
     return page.getTextContent();
-  })
+}).then(function(textContent) {
+     // PDF canvas
+    var pdf_canvas = $("#canvas");
 
-  .then(function(textContent) {
-    // Create div which will hold text-fragments
-    console.log(textContent);
-    var textLayerDiv = document.createElement("div");
+    // Canvas offset
+    var canvas_offset = pdf_canvas.offset();
 
-    // Set it's class to textLayer which have required CSS styles
-    textLayerDiv.setAttribute("class", "textLayer");
+    // Canvas height
+    var canvas_height =  canvas.height;
 
-    // Append newly created div in `div#page-#{pdf_page_number}`
-    div.appendChild(textLayerDiv);
+    // Canvas width
+    var canvas_width = canvas.width;
 
-    // Create new instance of TextLayerBuilder class
-    var textLayer = new TextLayerBuilder({
-      textLayerDiv: textLayerDiv,
-      pageIndex: page.pageIndex,
-      viewport: viewport
+    // Assign CSS to the text-layer element
+    $("#text-layer").css({ left: canvas_offset.left + 'px', top: canvas_offset.top + 'px', height: canvas_height + 'px', width: canvas_width + 'px' });
+
+    // Pass the data to the method for rendering of text over the pdf canvas.
+    PDFJS.renderTextLayer({
+        textContent: textContent,
+        container: $("#text-layer").get(0),
+        viewport: viewport,
+        textDivs: []
     });
+});
 
-    // Set text-fragments
-    textLayer.setTextContent(textContent);
 
-    // Render text-fragments
-    textLayer.render();
-  });
         });
 
-      }
+    }
 
 });
 

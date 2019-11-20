@@ -1,107 +1,121 @@
 {
    "Ra":{
-      "ISO4287":[
-         "Symbole",
-         "Tabelle",
-         "Definition"
-      ]
+      "ISO4287":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
    },
    "Rpk":{
-      "ISO4287":[
-         "Symbole",
-         "Tabelle",
-         "Definition"
-      ]
+      "ISO4287":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
    },
-  "Rz":{
-    "ISO14405-1" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "CT":{
-    "ISO14405-1" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "GX":{
-    "ISO14405-1" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "GG":{
-    "ISO14405-1" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "H\\d{1,2}":{
-    "ISO286-1" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "h\\d{1,2}":{
-    "ISO286-1" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "M\\d{1,2}":{
-    "ISO6410" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "\u27C2":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "\u25CE":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "\u232D":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "\u2225":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "\u232F":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "\u2316":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-    "\u2313":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  },
-  "\u23E5":{
-    "ISO1101" : [
-      "Symbole",
-      "Tabelle",
-      "Definition"]
-  }
+   "Rz":{
+      "ISO14405-1":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "CT":{
+      "ISO14405-1":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "GX":{
+      "ISO14405-1":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "GG":{
+      "ISO14405-1":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "H\\d{1,2}":{
+      "ISO286-1":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "h\\d{1,2}":{
+      "ISO286-1":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "M\\d{1,2}":{
+      "ISO6410":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u27C2":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u25CE":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u232D":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u2225":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u232F":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u2316":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u2313":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   },
+   "\u23E5":{
+      "ISO1101":{
+         "Symbole":1,
+         "Tabelle":2,
+         "Definition":3
+      }
+   }
 }
-

@@ -6,6 +6,7 @@ import redis
 import random
 import PyPDF2
 import json
+import base64
 import os
 import json
 import re
@@ -109,7 +110,7 @@ def upload_file():
 
 @app.route('/show/<filename>&<uuid>')
 def uploaded_file(filename, uuid):
-    """file_out = "out.jpg"
+    file_out = "out.jpg"
     #file_out = filename
     #if request.method == 'POST':
     #    uuid = 433
@@ -150,7 +151,8 @@ def uploaded_file(filename, uuid):
                 html_code += "<td><h4>" + dim + "</h4></td>"
             for d in dims[dim]:
                 relevant_isos = []
-                search_terms = []
+                search_terms = {}
+                terms = ''
                 #if "Ra" in d or "Rz" in d or "Rpk" in d:
                 #    relevant_isos.append("ISO4287.PDF")
                 #if u"\u27C2" in d or u"\u25CE" in d or u"\u232D" in d or u"\u2225" in d or u"\u232F" in d or u"\u2316" in d or u"\u2313" in d or u"\u23E5" in d:
@@ -166,9 +168,18 @@ def uploaded_file(filename, uuid):
                         iso = config_file[conf]
                         for key in iso:
                             relevant_isos.append(key)
-                            search_terms = iso[key]
+                            for blub in iso[key]:
+                                search_terms[blub] = iso[key][blub]
 
-                terms = ",".join(str(e) for e in search_terms)
+                        #terms = '{"Symbole":1,"Tabelle":2,"Definition":3}'
+                        if len(search_terms) < 1:
+                            search_terms["Beginn"] = 1
+                        terms = json.dumps(search_terms)
+                        #print(terms)
+                        terms = base64.b64encode(terms.encode())
+                        #terms = "blub"
+
+
 
                 try:
                     number = re.search(reg, d)
@@ -193,18 +204,19 @@ def uploaded_file(filename, uuid):
                              "<td style='text-align:center'>" + d + "</td>" + \
                              "<td max='3' style='text-align:center'> <input type='number' step='" + str(steps) + "' data-coords='" + coords + " 'data-details='" + det_coords  +"'' name='" + d + "' value='" + number + "'> </td>"
 
-
+                relevant_isos = list(set(relevant_isos))
                 for x in relevant_isos:
                     #html_code += "<td style='text-align:left'> <a href=" + url_for('static', filename="isos/"+x) + " >"+ x.partition(".")[0]  +"</a>  </td>"
-                    html_code += "<td style='text-align:left' data-terms='" + terms + "'> <a onclick=ui_add_tab_active('#main','" + x.partition(".")[0] + "','" + x.partition(".")[0] +"',true,'isotab')>" + x.partition(".")[0] + "</a>  </td>"
+                    html_code += "<td style='text-align:left' data-terms='" + terms + "'> <a onclick=ui_add_tab_active('#main','" + x.partition(".")[0] + "','" + x.partition(".")[0] +"',true,'isotab','"+terms+"')>" + x.partition(".")[0] + "</a>  </td>"
                 #print(html_code)
                 html_code += "</tr>"
                 html_links = ""
                 for link in links:
-                    html_links += "<a onclick =ui_add_tab_active('#main','" + link + "','" + link +"',true,'isotab')> Open " + link + "</a> <br>"
+                    html_links += "<a onclick =ui_add_tab_active('#main','" + link + "','" + link +"',true,'isotab','"+terms+"')> Open " + link + "</a> <br>"
                     #html_links += "<tr> <td> <a onclick =ui_add_tab_active('#main','iso1','iso1',true,'isotab')> Open " + link + " in Tab </a> </td> </tr>"""
-        #return render_template('show_pdf.html', filename=file_out, isos=isos, dims=dims, text=html_code,html_general=html_general, number=number_blocks, og_filename=filename, w=w, h=h, html_links=html_links, isos_names=isos_names)
-    return render_template('show_pdf.html', og_filename=filename)
+        #print("teeest")
+        return render_template('index.html', filename=file_out, isos=isos, dims=dims, text=html_code,html_general=html_general, number=number_blocks, og_filename=filename, w=w, h=h, html_links=html_links, isos_names=isos_names)
+    #return render_template('test_pdfjs_textlayer.html', og_filename=filename)
 
     #else:
     #    filename = filename

@@ -51,22 +51,44 @@ function ui_add_tab(tabbed,title,id,closeable,additionalclasses) {
   }
 }
 
-function create_new_tab(title, id) {
-    console.log(title,id);
+function create_new_tab(title, id,terms) {
+    //console.log(title,id);
+    var terms = atob(terms);
     var theDiv = document.getElementById(id);
-    var content = document.createTextNode(id);
-    var content = document.createTextNode(id);
+    //var content = document.createTextNode("Test");
+    //var content = document.createTextNode(terms);
     var newElement = document.createElement('div');
-    newElement.setAttribute('id', id);
+    var textElement = document.createElement('div');
+    var array_terms = JSON.parse(terms);
+    var len = Object.keys(array_terms).length;
+    console.log(len);
+    textElement.innerHTML += "<a onclick=change_isos_tab('"+id+"','start')> Start of ISO File. </a><br>";
+    for (var key in array_terms) {
+        console.log(key);
+        //theDiv.appendChild(document.createTextNode(terms[key]));
+        textElement.innerHTML += "<a onclick=change_isos_tab('"+id+"','"+array_terms[key]+"')>"+key+" </a><br>";
+    }
+    newElement.setAttribute('id', "iso_"+id);
+    //console.log(terms);
     newElement.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF')'> </iframe>";
-    theDiv.appendChild(content);
+    theDiv.appendChild(textElement);
     theDiv.appendChild(newElement);
     return true;
 }
 
-function ui_add_tab_active(tabbed,title,id,closeable,additionalclasses) {
+function change_isos_tab(id, term){
+    var theDiv = document.getElementById("iso_"+id);
+    if (term = "start"){
+        term = 1;
+    }
+    theDiv.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF#page="+ term+"')'> </iframe>";
+    return true;
+}
+
+function ui_add_tab_active(tabbed,title,id,closeable,additionalclasses, terms) {
   var state = ui_add_tab(tabbed,title,id,closeable,additionalclasses);
-  if (state) { create_new_tab(title, id); }
+  console.log("test");
+  if (state) { create_new_tab(title, id, terms); }
   if (state) { ui_activate_tab($('ui-tabbar ui-tab[data-tab=' + id + ']')); }
   return state;
 }
