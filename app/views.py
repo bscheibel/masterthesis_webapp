@@ -212,7 +212,7 @@ def uploaded_file(filename, uuid):
                 html_code += "</tr>"
                 html_links = ""
                 for link in links:
-                    html_links += "<a onclick =ui_add_tab_active('#main','" + link + "','" + link +"',true,'isotab','"+terms+"')> Open " + link + "</a> <br>"
+                    html_links += "<a onclick =ui_add_tab_active('#main','" + link + "','" + link +"',true,'isotab','empty')> Open " + link + "</a> <br>"
                     #html_links += "<tr> <td> <a onclick =ui_add_tab_active('#main','iso1','iso1',true,'isotab')> Open " + link + " in Tab </a> </td> </tr>"""
         #print("teeest")
         return render_template('index.html', filename=file_out, isos=isos, dims=dims, text=html_code,html_general=html_general, number=number_blocks, og_filename=filename, w=w, h=h, html_links=html_links, isos_names=isos_names)

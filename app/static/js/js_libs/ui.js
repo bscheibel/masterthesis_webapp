@@ -53,6 +53,7 @@ function ui_add_tab(tabbed,title,id,closeable,additionalclasses) {
 
 function create_new_tab(title, id,terms) {
     //console.log(title,id);
+    if (terms != "empty"){
     var terms = atob(terms);
     var theDiv = document.getElementById(id);
     //var content = document.createTextNode("Test");
@@ -69,19 +70,33 @@ function create_new_tab(title, id,terms) {
         textElement.innerHTML += "<a onclick=change_isos_tab('"+id+"','"+array_terms[key]+"')>"+key+" </a><br>";
     }
     newElement.setAttribute('id', "iso_"+id);
-    //console.log(terms);
+    console.log(terms);
+    console.log(textElement)
     newElement.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF')'> </iframe>";
     theDiv.appendChild(textElement);
     theDiv.appendChild(newElement);
+    }
+    else{
+        var theDiv = document.getElementById(id);
+        var newElement = document.createElement('div');
+        var textElement = document.createElement('div');
+        textElement.innerHTML += "<a onclick=change_isos_tab('"+id+"','start')> Start of ISO File. </a><br>";
+        newElement.setAttribute('id', "iso_"+id);
+        //console.log(terms);
+        newElement.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF')'> </iframe>";
+        theDiv.appendChild(textElement);
+        theDiv.appendChild(newElement);
+    }
     return true;
 }
 
 function change_isos_tab(id, term){
     var theDiv = document.getElementById("iso_"+id);
-    if (term = "start"){
+    if (term == "start"){
         term = 1;
     }
     theDiv.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF#page="+ term+"')'> </iframe>";
+    console.log(id,term);
     return true;
 }
 
