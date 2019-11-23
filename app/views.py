@@ -38,9 +38,17 @@ def get_file_size(file):
 
     w = p.mediaBox.getWidth()
     h= p.mediaBox.getHeight()
+    OrientationDegrees = p.get('/Rotate')
+    if OrientationDegrees != 0 :
+        orientation = "landscape"
+    else:
+        orientation = "portrait"
 
-    print(w,h)
-    return w,h
+    print(w,h,OrientationDegrees)
+    return w,h, orientation
+
+
+
 
 def check_config_file(d):
     reg_search = d
@@ -115,7 +123,7 @@ def uploaded_file(filename, uuid):
     #if request.method == 'POST':
     #    uuid = 433
     if filename.endswith(".pdf") or filename.endswith(".PDF"):
-        w,h = get_file_size(UPLOAD_FOLDER +"/" + filename)
+        w,h, orientation = get_file_size(UPLOAD_FOLDER +"/" + filename)
         convert_pdf_img(filename)
         db = redis.Redis("localhost")
         #isos = db.get(uuid+"dims")
@@ -215,7 +223,7 @@ def uploaded_file(filename, uuid):
                     html_links += "<a onclick =ui_add_tab_active('#main','" + link + "','" + link +"',true,'isotab','empty')> Open " + link + "</a> <br>"
                     #html_links += "<tr> <td> <a onclick =ui_add_tab_active('#main','iso1','iso1',true,'isotab')> Open " + link + " in Tab </a> </td> </tr>"""
         #print("teeest")
-        return render_template('index.html', filename=file_out, isos=isos, dims=dims, text=html_code,html_general=html_general, number=number_blocks, og_filename=filename, w=w, h=h, html_links=html_links, isos_names=isos_names)
+        return render_template('index.html', filename=file_out, isos=isos, dims=dims, text=html_code,html_general=html_general, number=number_blocks, og_filename=filename, w=w, h=h, html_links=html_links, isos_names=isos_names, orientation=orientation)
     #return render_template('test_pdfjs_textlayer.html', og_filename=filename)
 
     #else:

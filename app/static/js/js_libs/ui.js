@@ -63,7 +63,7 @@ function create_new_tab(title, id,terms) {
     var array_terms = JSON.parse(terms);
     var len = Object.keys(array_terms).length;
     console.log(len);
-    textElement.innerHTML += "<a onclick=change_isos_tab('"+id+"','start')> Start of ISO File. </a><br>";
+    textElement.innerHTML += "<a onclick=change_isos_tab('"+id+"','start')> Start of ISO document </a><br>";
     for (var key in array_terms) {
         console.log(key);
         //theDiv.appendChild(document.createTextNode(terms[key]));

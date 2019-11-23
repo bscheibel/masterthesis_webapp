@@ -1,121 +1,98 @@
 {
    "Ra":{
       "ISO4287":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Begriffe":8,
+         "Definition":17
       }
    },
    "Rpk":{
-      "ISO4287":{
-         "Symbole":1,
+      "ISO13565-2":{
+         "Begriffe":8,
          "Tabelle":2,
          "Definition":3
       }
    },
    "Rz":{
       "ISO14405-1":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Begriffe":8,
+         "Definition":14
       }
    },
    "CT":{
       "ISO14405-1":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":28,
+         "Begriffe":13
       }
    },
    "GX":{
       "ISO14405-1":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":29,
+         "Begriffe":13
       }
    },
    "GG":{
       "ISO14405-1":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":28,
+         "Begriffe":13
       }
    },
    "H\\d{1,2}":{
       "ISO286-1":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Begriffe":10,
+         "Passungssystem":37,
+         "Tabelle":29
       }
    },
    "h\\d{1,2}":{
       "ISO286-1":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Begriffe":10,
+         "Passungssystem":37,
+         "Tabelle":29
       }
    },
    "M\\d{1,2}":{
-      "ISO6410":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+      "ISO6410-1":{
+         "Maßeintragung":5
       }
    },
    "\u27C2":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    },
    "\u25CE":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    },
    "\u232D":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    },
    "\u2225":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    },
    "\u232F":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    },
    "\u2316":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    },
    "\u2313":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    },
    "\u23E5":{
       "ISO1101":{
-         "Symbole":1,
-         "Tabelle":2,
-         "Definition":3
+         "Symbole":21
       }
    }
 }
