@@ -155,6 +155,7 @@ def uploaded_file(filename, uuid):
             if "ZZZZ" in dim:
                 for d in dims[dim]:
                     html_general += d + "<br>"
+                continue
             else:
                 html_code += "<td><h4>" + dim + "</h4></td>"
             for d in dims[dim]:
