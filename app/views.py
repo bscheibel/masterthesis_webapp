@@ -128,12 +128,14 @@ def uploaded_file(filename, uuid):
         db = redis.Redis("localhost")
         #isos = db.get(uuid+"dims")
         #print(iso)
+        gen_tol = db.get(str(uuid)+"tol")
+        print(gen_tol)
         isos = json.loads(db.get(str(uuid)+"isos"))
         links, isos_names = check_links(isos)
         dims = json.loads(db.get(str(uuid)+"dims"))
         details = json.loads(db.get(str(uuid) + "details"))
         number_blocks = db.get(str(uuid)+"eps")
-        html_code = ""
+        html_code = "General tolerances according to: " + gen_tol + "<br>"
         html_general = ""
         reg = r"(-?\d{1,}\.?\d*)"
         #re_gewinde = r"M\d{1,2}"
