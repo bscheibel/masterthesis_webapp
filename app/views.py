@@ -14,7 +14,7 @@ import base64
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
 
-UPLOAD_FOLDER = "/home/bscheibel/app/app/temporary"
+UPLOAD_FOLDER = "/home/centurio/Projects/engineering_drawings_extraction/temporary"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'PDF'])
 
@@ -30,7 +30,7 @@ def convert_pdf_img(filename):
 
 def extract_all(uuid, filename, db):
     #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
-    subprocess.call(['python3','/home/bscheibel/PycharmProjects/dxf_reader/main.py', str(uuid),UPLOAD_FOLDER + "/" + filename, db, str(0)])
+    subprocess.call(['pipenv run python main.py','/home/centurio/Projects/engineering_drawings_extraction/main.py', str(uuid),UPLOAD_FOLDER + "/" + filename, db, str(0)])
 
 def get_file_size(file):
     pdf = PyPDF2.PdfFileReader(file)
