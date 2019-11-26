@@ -26,7 +26,7 @@ def allowed_file(filename):
 def convert_pdf_img(filename):
     PDFFILE = UPLOAD_FOLDER +"/" + filename
     subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
-                     PDFFILE, '/home/bscheibel//app/app/temporary/out'])
+                     PDFFILE, '/home/centurio/Projects/engineering_drawings_extraction/app/app/temporary/out'])
 
 def extract_all(uuid, filename, db):
     #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
