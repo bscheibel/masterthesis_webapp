@@ -13,8 +13,9 @@ import re
 import base64
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
-
-UPLOAD_FOLDER = "/home/centurio/Projects/engineering_drawings_extraction/temporary"
+path = "/home/bscheibel/app/app"
+path_extraction = '/home/bscheibel/PycharmProjects/dxf_reader/main.py'
+UPLOAD_FOLDER = path + "/temporary"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'PDF'])
 
@@ -26,11 +27,11 @@ def allowed_file(filename):
 def convert_pdf_img(filename):
     PDFFILE = UPLOAD_FOLDER +"/" + filename
     subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
-                     PDFFILE, '/home/centurio/Projects/engineering_drawings_extraction/app/app/temporary/out'])
+                     PDFFILE, path + '/temporary/out'])
 
 def extract_all(uuid, filename, db):
     #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
-    subprocess.call(['pipenv run python main.py','/home/centurio/Projects/engineering_drawings_extraction/main.py', str(uuid),UPLOAD_FOLDER + "/" + filename, db, str(0)])
+    subprocess.call(['python3', path_extraction, str(uuid),UPLOAD_FOLDER + "/" + filename, db, str(0)])
 
 def get_file_size(file):
     pdf = PyPDF2.PdfFileReader(file)
@@ -141,7 +142,7 @@ def uploaded_file(filename, uuid):
         #re_gewinde = r"M\d{1,2}"
         #re_passungen = r"h\d{1,2}|H\d{1,2}"
         det_coords= "0,0,0,0"
-        with open('/home/bscheibel/app/app/config.json') as f:
+        with open(path+ '/config.json') as f:
             config_file = json.load(f)
 
         for dim in sorted(dims):
@@ -254,7 +255,7 @@ def add_header(response):
 
 @app.route('/redis/get/<key>',methods=['GET'])
 def redis_get(key):
-    db = redis.Redis("localhost")
+    db = redis.Redis(unix_socket_path='/tmp/redis.sock',db=7)
     result = json.loads(db.get(key))
     return result
 
@@ -262,7 +263,7 @@ def redis_get(key):
 def redis_set(key):
     value = request.get_json(force=True)
     value = value["value"]
-    db = redis.Redis("localhost")
+    db = redis.Redis(unix_socket_path='/tmp/redis.sock',db=7)
 
     value_name = value[0]
     value_v = value[1]
