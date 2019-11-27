@@ -13,8 +13,11 @@ import re
 import base64
 #https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
-path = "/home/bscheibel/app/app"
-path_extraction = '/home/bscheibel/PycharmProjects/dxf_reader/main.py'
+#path = "/home/bscheibel/app/app"
+path = "/home/centurio/Projects/engineering_drawings_ui/app/app"
+
+#path_extraction = '/home/bscheibel/PycharmProjects/dxf_reader/main.py'
+path_extraction = "/home/centurio/Projects/engineering_drawings_extraction/main.py"
 UPLOAD_FOLDER = path + "/temporary"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'PDF'])
