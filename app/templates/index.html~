@@ -83,7 +83,8 @@
           <ui-content>
               <ui-area data-belongs-to-tab="drawing" >
                   <div class="images">
-                  <img  class="optcontent" id="drawing" src="/home/centurio/Projects/engineering_drawings_ui/app/temporary/out.jpg" alt="Drawing">
+                  <img  class="optcontent" id="drawing" src="/home/centurio/Projects/engineering_drawings_ui/app/temporary/out.jog
+" alt="Drawing">
                   </div>
 
               </ui-area>

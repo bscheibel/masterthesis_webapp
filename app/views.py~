@@ -18,7 +18,7 @@ path = "/home/centurio/Projects/engineering_drawings_ui/app"
 
 #path_extraction = '/home/bscheibel/PycharmProjects/dxf_reader/main.py'
 path_extraction = "/home/centurio/Projects/engineering_drawings_extraction/main.py"
-UPLOAD_FOLDER = path + "/temporary/"
+UPLOAD_FOLDER = path + "/temporary"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'PDF'])
 
