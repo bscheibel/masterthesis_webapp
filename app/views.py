@@ -30,7 +30,7 @@ def allowed_file(filename):
 def convert_pdf_img(filename):
     PDFFILE = UPLOAD_FOLDER +"/" + filename
     subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
-                     PDFFILE, path + '/temporary/out'])
+                     PDFFILE,  '/home/centurio/web/edi2/out'])
 
 def extract_all(uuid, filename, db):
     #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
@@ -146,8 +146,9 @@ def uploaded_file(filename, uuid):
         #re_gewinde = r"M\d{1,2}"
         #re_passungen = r"h\d{1,2}|H\d{1,2}"
         det_coords= "0,0,0,0"
-        with open(path+ '/config.json') as f:
+        with open(path +'/static/config.json') as f:
             config_file = json.load(f)
+            print(config_file)
 
         for dim in sorted(dims):
             #print(dim)
@@ -192,7 +193,7 @@ def uploaded_file(filename, uuid):
                             search_terms["Beginn"] = 1
                         terms = json.dumps(search_terms)
                         #print(terms)
-                        terms = base64.b64encode(terms.encode())
+                        terms = base64.b64encode(terms.encode()).decode('utf-8')
                         #terms = "blub"
 
 

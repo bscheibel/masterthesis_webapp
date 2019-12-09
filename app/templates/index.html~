@@ -22,7 +22,7 @@
     <title>Resources</title>
 
     <!-- libs, do not modify. When local than load local libs. -->
-        <script type="text/javascript" src="/js_libs/jquery.min.js"></script>
+     <script type="text/javascript" src="/js_libs/jquery.min.js"></script>
     <script type="text/javascript" src="/js_libs/jquery.browser.js"></script>
     <script type="text/javascript" src="/js_libs/jquery.svg.min.js"></script>
     <script type="text/javascript" src="/js_libs/jquery.svgdom.min.js"></script>
@@ -35,14 +35,14 @@
     <script type="text/javascript" src="/js_libs/jquery.caret.min.js"></script>
     <script type="text/javascript" src="/js_libs/jquery.cookie.js"></script>
 
-    <script type="text/javascript" src="/js_libs/ui.js"></script>
+    <script type="text/javascript" src="/edi2/js_libs/ui.js"></script>
     <link   rel="stylesheet"      href="/js_libs/ui.css" type="text/css"/>
 
     <link   rel="stylesheet"      href="/cdp_ui/ui.css" type="text/css"/>
 
-    <link   rel="stylesheet"      href="css/ui.css" type="text/css"/>
+    <link   rel="stylesheet"      href="/edi2/css/ui.css" type="text/css"/>
     
-    <!--script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.min.js') }}"></script>
+	<!--<script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.browser.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.svg.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.svgdom.min.js') }}"></script>
@@ -60,9 +60,9 @@
 
     <link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/cdp_ui.css') }}" type="text/css"/>
 
-    <!--<link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/css/ui.css') }}" type="text/css"/>-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}" type="text/css"/>
+    <link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/css/ui.css') }}" type="text/css"/>-->
+    <link rel="stylesheet" href="/edi2/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="/edi2/css/layout.css" type="text/css"/>
 
   <body is="x-ui">
     <ui-rest id="main">
@@ -83,8 +83,7 @@
           <ui-content>
               <ui-area data-belongs-to-tab="drawing" >
                   <div class="images">
-                  <img  class="optcontent" id="drawing" src="/home/centurio/Projects/engineering_drawings_ui/app/temporary/out.jog
-" alt="Drawing">
+                  <img  class="optcontent" id="drawing" src="{{ url_for('static', filename='edi2/out.jpg') }}" alt="Drawing">
                   </div>
 
               </ui-area>
