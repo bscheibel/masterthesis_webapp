@@ -215,6 +215,13 @@
 
         });
 
+      $("ui-area").scroll(function(){
+          $("input[type=number]").blur();
+          $("div").removeClass("red");
+          $("div").removeClass("green");
+
+      });
+
 
       function highlight_areas(coords, color){
 
@@ -242,8 +249,10 @@
        var y = 0;
 
        if (orientation == "landscape"){
-            x = width*(coords_x*height/width/w);
-            y = height*(coords_y*width/height/h);
+           // x = width*(coords_x*height/width/w);
+           x = (coords_x*height/w);
+           // y = height*(coords_y*width/height/h);
+           y = (coords_y*width/h);
        }
        else {
 
