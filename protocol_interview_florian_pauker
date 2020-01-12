@@ -1,0 +1,17 @@
+Interview Dr. Florian Pauker, 9/01/2020
+
+Relevanz dieser Arbeit für Industrie?
+
+-- Automatisierte Qualitätskontrolle, als Baustein für prozessgeführte Qualitätskontrolle, als Basis für automat. 	   Messprogramm, damit ersparen wir uns manuelles Erstellen 
+-- Unterstützung f Mitarbeiter, vorgesetzer kann alles einmal durchklicken u markieren welche elemente relevant sind, nur diese werden dann den anderen MA angezeigt, vereinfachung für mitarbeiter, nur auf wichtige elemente konzentrieren
+-- auch QC für Zeichnung selbst, kann alles erkannt werden, entspricht abstand der Norm? Wenn nicht kann gleich überarbeitet werden
+
+Verbesserung Prototyp?
+
+-- Unterschiedlich markieren relevante und nicht relevante Elemente
+-- Nummerieren d Elemente
+-- Anpassen an unterschiedliche Layouts, adaptieren direkt von MA selbst
+-- eventuell Maßzahl für Normtreue, wie gut kann ausgelesen werden?
+-- anpassen an Zeichnungen die nicht der Norm entsprechen, auch solche können ausgelesen werden
+-- auch dxf formate unterstützen, sehr gängiges format in der praxis
+
