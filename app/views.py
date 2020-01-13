@@ -11,7 +11,6 @@ import os
 import json
 import re
 import base64
-#https://medium.com/@emerico/convert-pdf-to-image-using-python-flask-2864fb655e01
 
 #path = "/home/bscheibel/app/app"
 path = "/home/centurio/Projects/engineering_drawings_ui/app"
