@@ -72,7 +72,7 @@ function create_new_tab(title, id,terms) {
     newElement.setAttribute('id', "iso_"+id);
     console.log(terms);
     console.log(textElement)
-    newElement.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF')'> </iframe>";
+    newElement.innerHTML = "<iframe width=100% height=1000px src= '/edi2/isos/" + id  + ".PDF')'> </iframe>";
     theDiv.appendChild(textElement);
     theDiv.appendChild(newElement);
     }
@@ -83,7 +83,8 @@ function create_new_tab(title, id,terms) {
         textElement.innerHTML += "<a onclick=change_isos_tab('"+id+"','start')> Start of ISO File. </a><br>";
         newElement.setAttribute('id', "iso_"+id);
         //console.log(terms);
-        newElement.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF')'> </iframe>";
+        newElement.innerHTML = "<iframe width=100% height=1000px src= '/edi2/isos/" + id  + ".PDF')'> </iframe>";
+        newElement.innerHTML ="<h1> hallooo </>"
         theDiv.appendChild(textElement);
         theDiv.appendChild(newElement);
     }
@@ -95,7 +96,7 @@ function change_isos_tab(id, term){
     if (term == "start"){
         term = 1;
     }
-    theDiv.innerHTML = "<iframe width=100% height=1000px src= '/static/isos/" + id  + ".PDF#page="+ term+"')'> </iframe>";
+    theDiv.innerHTML = "<iframe width=100% height=1000px src= '/edi2/isos/" + id  + ".PDF#page="+ term+"')'> </iframe>";
     console.log(id,term);
     return true;
 }
