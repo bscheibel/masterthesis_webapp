@@ -1,0 +1,325 @@
+<!--This file is part of centurio.work/edi.
+
+  centurio.work/edi is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option) any
+  later version.
+
+  centurio.work/edi is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+  more details.
+
+  You should have received a copy of the GNU General Public License along with
+  centurio.work/edi (file COPYING in the main directory).  If not, see
+  <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Resources</title>
+
+    <!-- libs, do not modify. When local than load local libs. -->
+     <script type="text/javascript" src="/js_libs/jquery.min.js"></script>
+    <script type="text/javascript" src="/js_libs/jquery.browser.js"></script>
+    <script type="text/javascript" src="/js_libs/jquery.svg.min.js"></script>
+    <script type="text/javascript" src="/js_libs/jquery.svgdom.min.js"></script>
+    <script type="text/javascript" src="/js_libs/vkbeautify.js"></script>
+    <script type="text/javascript" src="/js_libs/util.js"></script>
+    <script type="text/javascript" src="/js_libs/printf.js"></script>
+    <script type="text/javascript" src="/js_libs/strftime.min.js"></script>
+    <script type="text/javascript" src="/js_libs/parsequery.js"></script>
+    <script type="text/javascript" src="/js_libs/underscore.min.js"></script>
+    <script type="text/javascript" src="/js_libs/jquery.caret.min.js"></script>
+    <script type="text/javascript" src="/js_libs/jquery.cookie.js"></script>
+
+    <script type="text/javascript" src="/edi2/js_libs/ui.js"></script>
+    <link   rel="stylesheet"      href="/js_libs/ui.css" type="text/css"/>
+
+    <link   rel="stylesheet"      href="/cdp_ui/ui.css" type="text/css"/>
+
+    <link   rel="stylesheet"      href="/edi2/css/ui.css" type="text/css"/>
+    
+	<!--<script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.browser.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.svg.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.svgdom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/vkbeautify.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/util.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/printf.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs//strftime.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/parsequery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/underscore.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.caret.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/jquery.cookie.js') }}"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/js_libs/ui.js') }}"></script>
+    <link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/ui.css') }}" type="text/css"/>
+
+    <link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/cdp_ui.css') }}" type="text/css"/>
+
+    <link   rel="stylesheet"      href="{{ url_for('static', filename='js/js_libs/css/ui.css') }}" type="text/css"/>-->
+    <link rel="stylesheet" href="/edi2/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="/edi2/css/layout.css" type="text/css"/>
+
+  <body is="x-ui">
+    <ui-rest id="main">
+      <ui-content>
+        <ui-area id='datacolumn'>
+          <!-- <ui-rest id="sub">  with this the content does not work for other tabs -->
+            <ui-tabbar>
+              <ui-before>
+                <a class="logo" href="/"> </a>
+              </ui-before>
+              <ui-tab class="default" data-tab="drawing" >Drawing
+
+              </ui-tab>
+
+              <ui-behind                                       ></ui-behind>
+            </ui-tabbar>
+         <!--</ui-rest>-->
+          <ui-content>
+              <ui-area data-belongs-to-tab="drawing" >
+                  <div class="images">
+                  <img  class="optcontent" id="drawing" src="{{ url_for('static', filename='edi2/out.jpg') }}" alt="Drawing">
+                  </div>
+
+              </ui-area>
+
+          </ui-content>
+        </ui-area>
+
+        <ui-resizehandle data-label="drag to resize"></ui-resizehandle>
+        <ui-area id="detailcolumn1" data-minsize="20em">
+            <h3 style="text-align:center"> General Information</h3>
+            <div id="dat_details" class='x-ui-layout'>
+
+                <div class="column-one" style="width:50%;float:left">
+
+                  {{ html_links | safe }}
+
+                {% for iso in isos_names %}
+                    {{ iso }} (Document not available)<br>
+                {% endfor %}
+
+                </div>
+                <div class="column-two" style="width:50%;float:right">
+
+                {{ html_general | safe }}
+                </div>
+            </div>
+          <div id="measurements">
+                <font >
+                <form>
+                <table>
+                    <tr>
+                        <td style="text-align:center"><h3>Key Value</h3></td>
+                        <td style="text-align:center"><h3>Target Value</h3></td>
+                        <td style="text-align:center"><h3>Actual Value</h3></td>
+                        <td style="text-align:center"><h3>Relevant Isos</h3></td>
+                    </tr>
+
+                        {{ text | safe}}
+
+                </table>
+                </form>
+                </font>
+
+           </div>
+        </ui-area>
+
+      </ui-content>
+    </ui-rest>
+
+
+    <script>
+    function log(){
+      console.log("test");
+
+    }
+
+    function set_redis(key, value) {
+
+        $.ajax({
+            type: "POST",
+            url: "/redis/set/" + key,
+            data: JSON.stringify({ value: value }),
+            dataType: "json",
+            contentType: "json",
+            success: function(data)
+            {
+                (data.GET);
+            }
+        });
+    }
+
+     function get_redis(key) {
+        $.ajax({
+            type: "GET",
+            url: "redis/get/" + key,
+            data: "format=json",
+            dataType: "text",
+            success: function(data)
+            {
+                $("#result").text(data.GET);
+            }
+        });
+       }
+
+      function split_string(string) {
+            var string = str.split(" ",2);
+            return string;
+        };
+
+    </script>
+
+<script>
+
+
+    $(document).ready(function(){
+
+        $("input[type=number]").on("change keyup input", function(){
+            var array_value = [];
+            array_value[0] = $(this).attr('name');
+            array_value[1] = $(this).val();
+
+            var key = 'last' + "_" +'{{og_filename}}';
+
+            //console.log({{ dim }});
+            set_redis(key, array_value);
+        });
+
+        $("input[type=checkbox]").change(function(){
+
+           // Print entered value in a div box
+           $("#result").text($(this).attr('name'));
+           var key1 = 'last' + "_" +'{{og_filename}}';
+           var array_value1 = [];
+
+           if ($(this).is(':checked')) {
+                console.log($(this).attr('name') + ' is now checked');
+                array_value1[0] = 'relevant.' + $(this).attr('name');
+                array_value1[1] = true;
+            } else {
+                console.log($(this).attr('name') + ' is now unchecked');
+                array_value1[0] = $(this).attr('name');
+                array_value1[1] = false;
+            }
+
+           set_redis(key1, array_value1);
+
+        });
+
+
+
+        $("input[type=number]").focus(function(){
+
+
+
+
+            var number = $(this).attr('name');
+            var coords = $(this).attr('data-coords');
+            highlight_areas(coords, "red");
+            var detail = $(this).attr('data-details');
+            console.log(detail, "green");
+            highlight_details(detail, "green");
+
+        });
+
+        $("input[type=number]").blur(function(){
+
+          $("div").removeClass("red");
+          $("div").removeClass("green");
+
+        });
+
+
+      function highlight_areas(coords, color){
+
+       let w = {{w}}
+       let h = {{h}}
+       let pos = $("#drawing").position();
+       let drawing_x = pos.left;
+       let drawing_y = pos.top;
+       let array_coords = coords.split(",");
+       let coords_x = parseFloat(array_coords[0]);
+       let coords_xmax = parseFloat(array_coords[2]);
+       let coords_y = parseFloat(array_coords[1]);
+       let coords_ymax = parseFloat(array_coords[3]);
+       let coords_width = (coords_xmax - coords_x);
+
+       let coords_height = (coords_ymax - coords_y);
+
+
+       let width = $("#drawing").width();
+       let height = $("#drawing").height();
+       let rel_width = coords_width/h*width*1.4;
+       let rel_height = coords_height/w*height*1.4;
+       var orientation = "{{orientation}}";
+       var x = 0;
+       var y = 0;
+
+       if (orientation == "landscape"){
+            x = width*(coords_x*height/width/w);
+            y = height*(coords_y*width/height/h);
+       }
+       else {
+
+            x = width*(coords_x/w);
+            y = height*(coords_y/h);
+       }
+
+
+       console.log(w, h, rel_width, rel_height,x,y);
+
+       let $point1 = jQuery("<div class="+color+"/>").css({top: (drawing_y + y -5) + 'px', left: (drawing_x + x-5) + 'px', width: rel_width , height: rel_height});
+
+        $(".images").append($point1);
+
+        };
+
+       function highlight_details(coords, color){
+
+       let w = {{w}}
+       let h = {{h}}
+       let pos = $("#drawing").position();
+       let drawing_x = pos.left;
+       let drawing_y = pos.top;
+       let array_coords = coords.split(",");
+       let coords_x = parseFloat(array_coords[0]);
+       let coords_y = parseFloat(array_coords[1]);
+       let width_div = (parseFloat(array_coords[2]) - parseFloat(array_coords[0]));
+
+       let height_div = (parseFloat(array_coords[3]) - parseFloat(array_coords[1]));
+
+
+
+       let width = $("#drawing").width();
+       let rel_width = width_div/h*width;
+
+
+       let height = $("#drawing").height();
+       let rel_height = height*height_div/w;
+
+       let x = width*(coords_x*height/width/w);
+       let y= height*(coords_y*width/height/h);
+       console.log(rel_width, rel_height);
+       if (array_coords[3] > 10000) {
+           rel_height = height - y;
+
+       }
+
+
+       let $point = jQuery("<div class="+color+"/>").css({top: (drawing_y + y) + 'px', left: (drawing_x + x) + 'px', width: (rel_width) + 'px', height: (rel_height) + 'px'});
+
+        $(".images").append($point);
+
+        };
+
+     });
+
+  </script>
+  </body>
+</html>
