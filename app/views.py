@@ -10,11 +10,17 @@ import json
 import re
 import base64
 
-#path = "/home/bscheibel/app/app"
-path = "/home/centurio/Projects/engineering_drawings_ui/app"
+path = "/home/bscheibel/app/app"
+#path = "/home/centurio/Projects/engineering_drawings_ui/app"
+#db_params = "unix_socket_path='/tmp/redis.sock',db=7"
+#path_image = "/home/centurio/web/edi2/out"
+path_image = "/home/bscheibel/app/app/temporary/out"
+db_params = "localhost"
+path_extraction = '/home/bscheibel/PycharmProjects/engineering_drawings_extraction/main.py'
+#path_extraction = "/home/centurio/Projects/engineering_drawings_extraction/main.py"
 
-#path_extraction = '/home/bscheibel/PycharmProjects/dxf_reader/main.py'
-path_extraction = "/home/centurio/Projects/engineering_drawings_extraction/main.py"
+
+
 UPLOAD_FOLDER = path + "/temporary/"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'PDF'])
@@ -27,7 +33,8 @@ def allowed_file(filename):
 def convert_pdf_img(filename):
     PDFFILE = UPLOAD_FOLDER +"/" + filename
     subprocess.call(['pdftoppm', '-jpeg', '-singlefile',
-                     PDFFILE,  '/home/centurio/web/edi2/out'])
+                     PDFFILE,  path_image])
+
 
 def extract_all(uuid, filename, db):
     #order_bounding_boxes_in_each_block.main(uuid, UPLOAD_FOLDER + "/" + filename)
@@ -104,7 +111,8 @@ def uploaded_file(filename, uuid):
     if filename.endswith(".pdf") or filename.endswith(".PDF"):
         w,h, orientation = get_file_size(UPLOAD_FOLDER +"/" + filename)
         convert_pdf_img(filename)
-        db = redis.Redis(unix_socket_path='/tmp/redis.sock',db=7)
+        db = redis.Redis(db_params)
+        print(db_params)
         gen_tol = db.get(str(uuid)+"tol")
         print(gen_tol)
         isos = json.loads(db.get(str(uuid)+"isos"))
@@ -205,7 +213,7 @@ def add_header(response):
 
 @app.route('/redis/get/<key>',methods=['GET'])
 def redis_get(key):
-    db = redis.Redis(unix_socket_path='/tmp/redis.sock',db=7)
+    db = redis.Redis(db_params)
     result = json.loads(db.get(key))
     return result
 
@@ -213,7 +221,7 @@ def redis_get(key):
 def redis_set(key):
     value = request.get_json(force=True)
     value = value["value"]
-    db = redis.Redis(unix_socket_path='/tmp/redis.sock',db=7)
+    db = redis.Redis(db_params)
 
     value_name = value[0]
     value_v = value[1]
